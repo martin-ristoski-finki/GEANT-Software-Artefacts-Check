@@ -1,0 +1,20 @@
+repo_url,check_type,item,status,details
+https://github.com/craftista/craftista.git,key_artefact,README,PASS,README.md
+https://github.com/craftista/craftista.git,key_artefact,LICENSE,PASS,LICENSE
+https://github.com/craftista/craftista.git,key_artefact,NOTICE,PASS,NOTICE.md
+https://github.com/craftista/craftista.git,key_artefact,COPYRIGHT,FAIL,
+https://github.com/craftista/craftista.git,key_artefact,AUTHORS,FAIL,
+https://github.com/craftista/craftista.git,key_artefact,CHANGELOG,FAIL,
+https://github.com/craftista/craftista.git,key_artefact,CONTRIBUTING,FAIL,
+https://github.com/craftista/craftista.git,binary_file,Binary artefacts,PASS,No flagged binary/compiled/archive files found
+https://github.com/craftista/craftista.git,large_file,Large files (>= 10485760 bytes),PASS,No large files found above threshold
+https://github.com/craftista/craftista.git,notice_content,Project name,PASS,Project name detected
+https://github.com/craftista/craftista.git,notice_content,Copyright – short one-liner,FAIL,No clear copyright line with year detected
+https://github.com/craftista/craftista.git,notice_content,Licence – declaration/link to full text,WARN,Licence mention/reference not clearly detected
+https://github.com/craftista/craftista.git,notice_content,Authors and contributors – or link to AUTHORS,WARN,No clear authors/contributors reference detected
+https://github.com/craftista/craftista.git,notice_content,Third-party components – name/version/licence,WARN,No clear third-party component listing detected
+https://github.com/craftista/craftista.git,notice_content,Tools used – name/link/purpose,WARN,Tools section detection is heuristic; manual confirmation recommended
+https://github.com/craftista/craftista.git,notice_content,Trademark disclaimer,WARN,No trademark wording detected
+https://github.com/craftista/craftista.git,notice_content,Patents and patent-related statements,WARN,No patent wording detected
+https://github.com/craftista/craftista.git,notice_content,Special acknowledgements or attributions,WARN,No acknowledgements wording detected
+https://github.com/craftista/craftista.git,notice_content,Prior notices for third-party components when required,WARN,No explicit prior-notice wording detected
