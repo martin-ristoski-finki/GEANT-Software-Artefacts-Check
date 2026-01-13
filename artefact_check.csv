@@ -1,20 +1,120 @@
 repo_url,check_type,item,status,details
-https://github.com/craftista/craftista.git,key_artefact,README,PASS,README.md
-https://github.com/craftista/craftista.git,key_artefact,LICENSE,PASS,LICENSE
-https://github.com/craftista/craftista.git,key_artefact,NOTICE,PASS,NOTICE.md
-https://github.com/craftista/craftista.git,key_artefact,COPYRIGHT,FAIL,
-https://github.com/craftista/craftista.git,key_artefact,AUTHORS,FAIL,
-https://github.com/craftista/craftista.git,key_artefact,CHANGELOG,FAIL,
-https://github.com/craftista/craftista.git,key_artefact,CONTRIBUTING,FAIL,
-https://github.com/craftista/craftista.git,binary_file,Binary artefacts,PASS,No flagged binary/compiled/archive files found
-https://github.com/craftista/craftista.git,large_file,Large files (>= 10485760 bytes),PASS,No large files found above threshold
-https://github.com/craftista/craftista.git,notice_content,Project name,PASS,Project name detected
-https://github.com/craftista/craftista.git,notice_content,Copyright – short one-liner,FAIL,No clear copyright line with year detected
-https://github.com/craftista/craftista.git,notice_content,Licence – declaration/link to full text,WARN,Licence mention/reference not clearly detected
-https://github.com/craftista/craftista.git,notice_content,Authors and contributors – or link to AUTHORS,WARN,No clear authors/contributors reference detected
-https://github.com/craftista/craftista.git,notice_content,Third-party components – name/version/licence,WARN,No clear third-party component listing detected
-https://github.com/craftista/craftista.git,notice_content,Tools used – name/link/purpose,WARN,Tools section detection is heuristic; manual confirmation recommended
-https://github.com/craftista/craftista.git,notice_content,Trademark disclaimer,WARN,No trademark wording detected
-https://github.com/craftista/craftista.git,notice_content,Patents and patent-related statements,WARN,No patent wording detected
-https://github.com/craftista/craftista.git,notice_content,Special acknowledgements or attributions,WARN,No acknowledgements wording detected
-https://github.com/craftista/craftista.git,notice_content,Prior notices for third-party components when required,WARN,No explicit prior-notice wording detected
+https://github.com/GEANT/CAT.git,key_artefact,README,PASS,README.md
+https://github.com/GEANT/CAT.git,key_artefact,LICENSE,PASS,LICENSE
+https://github.com/GEANT/CAT.git,key_artefact,NOTICE,FAIL,Not found
+https://github.com/GEANT/CAT.git,key_artefact,COPYRIGHT,FAIL,Not found
+https://github.com/GEANT/CAT.git,key_artefact,AUTHORS,FAIL,Not found
+https://github.com/GEANT/CAT.git,key_artefact,CHANGELOG,PASS,"Changes.md, CHANGES.md"
+https://github.com/GEANT/CAT.git,key_artefact,CONTRIBUTING,FAIL,Not found
+https://github.com/GEANT/CAT.git,binary_file,geteduroam-stable.apk,FAIL,Extension .apk flagged; size=21
+https://github.com/GEANT/CAT.git,binary_file,geteduroam_1_0_16.apk,FAIL,Extension .apk flagged; size=7095405
+https://github.com/GEANT/CAT.git,binary_file,web/eduroamCAT-1-1-44.apk,FAIL,Extension .apk flagged; size=805165
+https://github.com/GEANT/CAT.git,binary_file,web/eduroamCAT-beta.apk,FAIL,Extension .apk flagged; size=21
+https://github.com/GEANT/CAT.git,binary_file,web/eduroamCAT-stable.apk,FAIL,Extension .apk flagged; size=21
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/bin/makensis.exe,FAIL,Extension .exe flagged; size=2560
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Bin/MakeLangId.exe,FAIL,Extension .exe flagged; size=25600
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Bin/makensisw.exe,FAIL,Extension .exe flagged; size=968704
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Bin/RegTool-x86.bin,FAIL,Extension .bin flagged; size=11776
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Bin/zip2exe.exe,FAIL,Extension .exe flagged; size=39424
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Bin/zlib1.dll,FAIL,Extension .dll flagged; size=81964
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x64-ansi/nsArray.dll,FAIL,Extension .dll flagged; size=16384
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x64-unicode/nsArray.dll,FAIL,Extension .dll flagged; size=16384
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/AdvSplash.dll,FAIL,Extension .dll flagged; size=8192
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/Banner.dll,FAIL,Extension .dll flagged; size=6144
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/BgImage.dll,FAIL,Extension .dll flagged; size=11264
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/Dialer.dll,FAIL,Extension .dll flagged; size=5632
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/InstallOptions.dll,FAIL,Extension .dll flagged; size=19456
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/LangDLL.dll,FAIL,Extension .dll flagged; size=7680
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/Math.dll,FAIL,Extension .dll flagged; size=31744
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/nsArray.dll,FAIL,Extension .dll flagged; size=12288
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/nsDialogs.dll,FAIL,Extension .dll flagged; size=11776
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/nsExec.dll,FAIL,Extension .dll flagged; size=9728
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/NSISdl.dll,FAIL,Extension .dll flagged; size=103424
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/Splash.dll,FAIL,Extension .dll flagged; size=7680
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/StartMenu.dll,FAIL,Extension .dll flagged; size=10240
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/System.dll,FAIL,Extension .dll flagged; size=25088
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/TypeLib.dll,FAIL,Extension .dll flagged; size=5632
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/UserInfo.dll,FAIL,Extension .dll flagged; size=6656
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-ansi/VPatch.dll,FAIL,Extension .dll flagged; size=11264
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/AdvSplash.dll,FAIL,Extension .dll flagged; size=8192
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/Banner.dll,FAIL,Extension .dll flagged; size=6656
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/BgImage.dll,FAIL,Extension .dll flagged; size=11264
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/Dialer.dll,FAIL,Extension .dll flagged; size=5632
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/InstallOptions.dll,FAIL,Extension .dll flagged; size=22016
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/LangDLL.dll,FAIL,Extension .dll flagged; size=7680
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/Math.dll,FAIL,Extension .dll flagged; size=32256
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/nsArray.dll,FAIL,Extension .dll flagged; size=12800
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/nsDialogs.dll,FAIL,Extension .dll flagged; size=11776
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/nsExec.dll,FAIL,Extension .dll flagged; size=9728
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/NSISdl.dll,FAIL,Extension .dll flagged; size=103424
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/Splash.dll,FAIL,Extension .dll flagged; size=7680
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/StartMenu.dll,FAIL,Extension .dll flagged; size=10752
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/System.dll,FAIL,Extension .dll flagged; size=25088
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/TypeLib.dll,FAIL,Extension .dll flagged; size=5632
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/UserInfo.dll,FAIL,Extension .dll flagged; size=6656
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Plugins/x86-unicode/VPatch.dll,FAIL,Extension .dll flagged; size=11776
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Contrib/UIs/default.exe,FAIL,Extension .exe flagged; size=16384
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Contrib/UIs/modern.exe,FAIL,Extension .exe flagged; size=16384
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmp.exe,FAIL,Extension .exe flagged; size=14336
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmpr.exe,FAIL,Extension .exe flagged; size=14336
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Contrib/UIs/modern_nodesc.exe,FAIL,Extension .exe flagged; size=13824
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Contrib/UIs/modern_smalldesc.exe,FAIL,Extension .exe flagged; size=13824
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/nsis/Contrib/UIs/sdbarker_tiny.exe,FAIL,Extension .exe flagged; size=16384
+https://github.com/GEANT/CAT.git,binary_file,tests/nsis3/share/doc/nsis/Examples/System/Resource.dll,FAIL,Extension .dll flagged; size=15360
+https://github.com/GEANT/CAT.git,binary_file,devices/ms/Files/wlan_test.exe,FAIL,Extension .exe flagged; size=8704
+https://github.com/GEANT/CAT.git,large_file,Large files (>= 10485760 bytes),PASS,No large files detected
+https://github.com/GEANT/CAT.git,readme_check,Project name,PASS,Detected repo/project name
+https://github.com/GEANT/CAT.git,readme_check,Copyright – short one-liner,WARN,No clear copyright one-liner detected
+https://github.com/GEANT/CAT.git,readme_check,Project status – software lifecycle stage,PASS,Lifecycle/status keywords detected
+https://github.com/GEANT/CAT.git,readme_check,Tags – relevant tags and categories,WARN,No tags/keywords detected
+https://github.com/GEANT/CAT.git,readme_check,Latest stable version indicated,WARN,No clear version indication
+https://github.com/GEANT/CAT.git,readme_check,Licence – short one-liner with link,WARN,Licence one-liner/link not detected
+https://github.com/GEANT/CAT.git,readme_check,Badges,PASS,Found 3 badge(s)
+https://github.com/GEANT/CAT.git,readme_check,Badges: Project metadata and release status,PASS,Detected
+https://github.com/GEANT/CAT.git,readme_check,Badges: Package downloads and versions,WARN,Not detected
+https://github.com/GEANT/CAT.git,readme_check,Badges: Community engagement,WARN,Not detected
+https://github.com/GEANT/CAT.git,readme_check,Badges: CI/CD workflows,PASS,Detected
+https://github.com/GEANT/CAT.git,readme_check,Badges: Code quality,PASS,Detected
+https://github.com/GEANT/CAT.git,readme_check,Badges: Test coverage,WARN,Not detected
+https://github.com/GEANT/CAT.git,readme_check,Badges: Security vulnerabilities,PASS,Detected
+https://github.com/GEANT/CAT.git,readme_check,Badges: Documentation,WARN,Not detected
+https://github.com/GEANT/CAT.git,readme_check,Badges: Community support,WARN,Not detected
+https://github.com/GEANT/CAT.git,readme_check,Description – clear and concise overview,PASS,Introduction content detected
+https://github.com/GEANT/CAT.git,readme_check,Features – key functionalities,WARN,No features section
+https://github.com/GEANT/CAT.git,readme_check,"Scope – contexts, use cases, limitations",PASS,Scope/use-case signals detected
+https://github.com/GEANT/CAT.git,readme_check,Supported tools/environments/clients,WARN,No compatibility section
+https://github.com/GEANT/CAT.git,readme_check,Components and/or project structure,WARN,No structure section
+https://github.com/GEANT/CAT.git,readme_check,System requirements,WARN,No requirements section
+https://github.com/GEANT/CAT.git,readme_check,Installation – instructions or link,PASS,Installation signals detected
+https://github.com/GEANT/CAT.git,readme_check,Usage – examples/demos,WARN,Usage/examples not clearly present
+https://github.com/GEANT/CAT.git,readme_check,Documentation – location,PASS,Documentation signals detected
+https://github.com/GEANT/CAT.git,readme_check,Version control – branch structure/tagging,PASS,Branch/tag wording detected
+https://github.com/GEANT/CAT.git,readme_check,Troubleshooting & FAQ,WARN,No troubleshooting/FAQ
+https://github.com/GEANT/CAT.git,readme_check,Support – contact/issue tracker,PASS,Support/contact wording detected
+https://github.com/GEANT/CAT.git,readme_check,Privacy policy (if applicable),WARN,No privacy policy
+https://github.com/GEANT/CAT.git,readme_check,Roadmap,WARN,No roadmap
+https://github.com/GEANT/CAT.git,readme_check,Authors – mention/link,WARN,No authors mention
+https://github.com/GEANT/CAT.git,readme_check,Contributing – guidelines/link,WARN,No contributing guidance
+https://github.com/GEANT/CAT.git,readme_check,Funding – sources/grant,WARN,No funding info
+https://github.com/GEANT/CAT.git,readme_check,Other acknowledgements,WARN,No acknowledgements
+https://github.com/GEANT/CAT.git,readme_check,Dependencies – main items listed,WARN,No dependencies section
+https://github.com/GEANT/CAT.git,readme_check,Tools used – development/build,PASS,Tools indicators detected
+https://github.com/GEANT/CAT.git,readme_check,Licence – summary paragraph + link,WARN,No licence summary
+https://github.com/GEANT/CAT.git,readme_check,Copyright – additional details/link,WARN,No COPYRIGHT reference
+https://github.com/GEANT/CAT.git,readme_check,README local links resolve,PASS,All links valid
+https://github.com/GEANT/CAT.git,license_check,Full official licence text,PASS,LICENSE file has 1107 characters
+https://github.com/GEANT/CAT.git,license_check,License type detection,WARN,No standard license detected
+https://github.com/GEANT/CAT.git,copyright_check,COPYRIGHT content checks,SKIP,COPYRIGHT not found
+https://github.com/GEANT/CAT.git,authors_check,AUTHORS content checks,SKIP,AUTHORS not found
+https://github.com/GEANT/CAT.git,notice_check,NOTICE content checks,SKIP,NOTICE not found
+https://github.com/GEANT/CAT.git,changelog_check,Project name,PASS,Project name detected
+https://github.com/GEANT/CAT.git,changelog_check,Entries in reverse chronological order,PASS,Version entries detected
+https://github.com/GEANT/CAT.git,changelog_check,"Version numbers, dates and summaries",WARN,No clear version/date pattern
+https://github.com/GEANT/CAT.git,changelog_check,Added – features or items,WARN,No Added section
+https://github.com/GEANT/CAT.git,changelog_check,Changed – features or items,WARN,No Changed section
+https://github.com/GEANT/CAT.git,changelog_check,Deprecated – features or items,WARN,No Deprecated section
+https://github.com/GEANT/CAT.git,changelog_check,Removed – features or items,WARN,No Removed section
+https://github.com/GEANT/CAT.git,changelog_check,Fixed – bugs or issues,WARN,No Fixed section
+https://github.com/GEANT/CAT.git,changelog_check,Security – updates or patches,WARN,No Security section
+https://github.com/GEANT/CAT.git,conditional_check,Contributing (fallback to README),FAIL,Not in CONTRIBUTING file or README
+https://github.com/GEANT/CAT.git,conditional_check,Authors (fallback to README),WARN,Not in AUTHORS file or README
