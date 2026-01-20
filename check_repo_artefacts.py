@@ -144,7 +144,7 @@ HEADING_RE = re.compile(r"^\s{0,3}(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
 
 
 def extract_headings(md: str) -> list[str]:
-    """Extract markdown headings."""
+    """Extract Markdown headings."""
     return [normalize(m.group(2)) for m in HEADING_RE.finditer(md)]
 
 
