@@ -3,9 +3,12 @@ import sys
 import subprocess
 import tempfile
 import csv
+import json
 import re
 from pathlib import Path
 from typing import Optional, Iterable
+from dataclasses import dataclass, field
+from enum import Enum
 
 # ============================================================================
 # CONFIGURATION
@@ -29,6 +32,251 @@ BINARY_EXTENSIONS = {
 
 LARGE_FILE_THRESHOLD_BYTES = 10 * 1024 * 1024  # 10 MB
 IGNORE_DIRS = {".git", ".github", ".idea", ".vscode", "__pycache__", ".venv", "venv", "node_modules"}
+
+
+# ============================================================================
+# PROBLEM LOGGING SYSTEM
+# ============================================================================
+
+class Severity(Enum):
+    """Problem severity levels"""
+    PASS = "PASS"
+    INFO = "INFO"
+    WARN = "WARN"
+    FAIL = "FAIL"
+    SKIP = "SKIP"
+
+
+class ProblemCode(Enum):
+    """Standardized problem codes for the Software Artefacts Checklist"""
+
+    # Key artefacts
+    ARTEFACT_README_MISSING = "ARTEFACT_README_MISSING"
+    ARTEFACT_LICENSE_MISSING = "ARTEFACT_LICENSE_MISSING"
+    ARTEFACT_COPYRIGHT_MISSING = "ARTEFACT_COPYRIGHT_MISSING"
+    ARTEFACT_AUTHORS_MISSING = "ARTEFACT_AUTHORS_MISSING"
+    ARTEFACT_NOTICE_MISSING = "ARTEFACT_NOTICE_MISSING"
+    ARTEFACT_CHANGELOG_MISSING = "ARTEFACT_CHANGELOG_MISSING"
+    ARTEFACT_CONTRIBUTING_MISSING = "ARTEFACT_CONTRIBUTING_MISSING"
+
+    # Binary and large files
+    BINARY_FILE_DETECTED = "BINARY_FILE_DETECTED"
+    LARGE_FILE_DETECTED = "LARGE_FILE_DETECTED"
+
+    # README checks
+    README_PROJECT_NAME_MISSING = "README_PROJECT_NAME_MISSING"
+    README_COPYRIGHT_MISSING = "README_COPYRIGHT_MISSING"
+    README_STATUS_MISSING = "README_STATUS_MISSING"
+    README_TAGS_MISSING = "README_TAGS_MISSING"
+    README_VERSION_MISSING = "README_VERSION_MISSING"
+    README_LICENSE_ONELINER_MISSING = "README_LICENSE_ONELINER_MISSING"
+    README_BADGES_MISSING = "README_BADGES_MISSING"
+    README_BADGE_METADATA_MISSING = "README_BADGE_METADATA_MISSING"
+    README_BADGE_DOWNLOADS_MISSING = "README_BADGE_DOWNLOADS_MISSING"
+    README_BADGE_COMMUNITY_MISSING = "README_BADGE_COMMUNITY_MISSING"
+    README_BADGE_CI_MISSING = "README_BADGE_CI_MISSING"
+    README_BADGE_QUALITY_MISSING = "README_BADGE_QUALITY_MISSING"
+    README_BADGE_COVERAGE_MISSING = "README_BADGE_COVERAGE_MISSING"
+    README_BADGE_SECURITY_MISSING = "README_BADGE_SECURITY_MISSING"
+    README_BADGE_DOCS_MISSING = "README_BADGE_DOCS_MISSING"
+    README_BADGE_SUPPORT_MISSING = "README_BADGE_SUPPORT_MISSING"
+    README_DESCRIPTION_MISSING = "README_DESCRIPTION_MISSING"
+    README_FEATURES_MISSING = "README_FEATURES_MISSING"
+    README_SCOPE_MISSING = "README_SCOPE_MISSING"
+    README_COMPATIBILITY_MISSING = "README_COMPATIBILITY_MISSING"
+    README_STRUCTURE_MISSING = "README_STRUCTURE_MISSING"
+    README_REQUIREMENTS_MISSING = "README_REQUIREMENTS_MISSING"
+    README_INSTALLATION_MISSING = "README_INSTALLATION_MISSING"
+    README_USAGE_MISSING = "README_USAGE_MISSING"
+    README_DOCUMENTATION_MISSING = "README_DOCUMENTATION_MISSING"
+    README_VERSION_CONTROL_MISSING = "README_VERSION_CONTROL_MISSING"
+    README_TROUBLESHOOTING_MISSING = "README_TROUBLESHOOTING_MISSING"
+    README_SUPPORT_INFO_MISSING = "README_SUPPORT_INFO_MISSING"
+    README_PRIVACY_MISSING = "README_PRIVACY_MISSING"
+    README_ROADMAP_MISSING = "README_ROADMAP_MISSING"
+    README_AUTHORS_MISSING = "README_AUTHORS_MISSING"
+    README_CONTRIBUTING_MISSING = "README_CONTRIBUTING_MISSING"
+    README_FUNDING_MISSING = "README_FUNDING_MISSING"
+    README_ACKNOWLEDGEMENTS_MISSING = "README_ACKNOWLEDGEMENTS_MISSING"
+    README_DEPENDENCIES_MISSING = "README_DEPENDENCIES_MISSING"
+    README_TOOLS_MISSING = "README_TOOLS_MISSING"
+    README_LICENSE_PARAGRAPH_MISSING = "README_LICENSE_PARAGRAPH_MISSING"
+    README_COPYRIGHT_DETAILS_MISSING = "README_COPYRIGHT_DETAILS_MISSING"
+    README_BROKEN_LINKS = "README_BROKEN_LINKS"
+
+    # LICENSE checks
+    LICENSE_FILE_TOO_SHORT = "LICENSE_FILE_TOO_SHORT"
+    LICENSE_TYPE_UNKNOWN = "LICENSE_TYPE_UNKNOWN"
+
+    # COPYRIGHT checks
+    COPYRIGHT_STATEMENT_MISSING = "COPYRIGHT_STATEMENT_MISSING"
+    COPYRIGHT_GEANT_MISSING = "COPYRIGHT_GEANT_MISSING"
+    COPYRIGHT_STATEMENTS_COUNT = "COPYRIGHT_STATEMENTS_COUNT"
+    COPYRIGHT_EU_LOGO_MISSING = "COPYRIGHT_EU_LOGO_MISSING"
+
+    # AUTHORS checks
+    AUTHORS_GEANT_PHASE_MISSING = "AUTHORS_GEANT_PHASE_MISSING"
+    AUTHORS_CONTACTS_MISSING = "AUTHORS_CONTACTS_MISSING"
+    AUTHORS_CONTRIBUTORS_MISSING = "AUTHORS_CONTRIBUTORS_MISSING"
+    AUTHORS_FUNDING_MISSING = "AUTHORS_FUNDING_MISSING"
+
+    # NOTICE checks
+    NOTICE_PROJECT_NAME_MISSING = "NOTICE_PROJECT_NAME_MISSING"
+    NOTICE_COPYRIGHT_MISSING = "NOTICE_COPYRIGHT_MISSING"
+    NOTICE_LICENSE_MISSING = "NOTICE_LICENSE_MISSING"
+    NOTICE_AUTHORS_MISSING = "NOTICE_AUTHORS_MISSING"
+    NOTICE_THIRD_PARTY_MISSING = "NOTICE_THIRD_PARTY_MISSING"
+    NOTICE_TOOLS_MISSING = "NOTICE_TOOLS_MISSING"
+    NOTICE_TRADEMARK_MISSING = "NOTICE_TRADEMARK_MISSING"
+    NOTICE_PATENTS_MISSING = "NOTICE_PATENTS_MISSING"
+    NOTICE_ACKNOWLEDGEMENTS_MISSING = "NOTICE_ACKNOWLEDGEMENTS_MISSING"
+    NOTICE_PRIOR_NOTICES_MISSING = "NOTICE_PRIOR_NOTICES_MISSING"
+
+    # CHANGELOG checks
+    CHANGELOG_PROJECT_NAME_MISSING = "CHANGELOG_PROJECT_NAME_MISSING"
+    CHANGELOG_NOT_CHRONOLOGICAL = "CHANGELOG_NOT_CHRONOLOGICAL"
+    CHANGELOG_VERSION_DATE_MISSING = "CHANGELOG_VERSION_DATE_MISSING"
+    CHANGELOG_ADDED_MISSING = "CHANGELOG_ADDED_MISSING"
+    CHANGELOG_CHANGED_MISSING = "CHANGELOG_CHANGED_MISSING"
+    CHANGELOG_DEPRECATED_MISSING = "CHANGELOG_DEPRECATED_MISSING"
+    CHANGELOG_REMOVED_MISSING = "CHANGELOG_REMOVED_MISSING"
+    CHANGELOG_FIXED_MISSING = "CHANGELOG_FIXED_MISSING"
+    CHANGELOG_SECURITY_MISSING = "CHANGELOG_SECURITY_MISSING"
+
+    # Conditional checks
+    CONTRIBUTING_FALLBACK_MISSING = "CONTRIBUTING_FALLBACK_MISSING"
+    AUTHORS_FALLBACK_MISSING = "AUTHORS_FALLBACK_MISSING"
+
+
+# Default priorities for problem codes (1=highest, 5=lowest)
+DEFAULT_PRIORITIES = {
+    ProblemCode.ARTEFACT_LICENSE_MISSING: 1,
+    ProblemCode.ARTEFACT_README_MISSING: 1,
+    ProblemCode.ARTEFACT_COPYRIGHT_MISSING: 2,
+    ProblemCode.BINARY_FILE_DETECTED: 1,
+    ProblemCode.COPYRIGHT_GEANT_MISSING: 3,
+    ProblemCode.COPYRIGHT_EU_LOGO_MISSING: 3,
+    ProblemCode.LICENSE_FILE_TOO_SHORT: 2,
+    ProblemCode.README_BROKEN_LINKS: 2,
+    ProblemCode.AUTHORS_FUNDING_MISSING: 3,
+}
+
+
+@dataclass
+class Problem:
+    """Represents a detected problem or finding"""
+    code: ProblemCode
+    severity: Severity
+    message: str
+    file_path: Optional[str] = None
+    line_number: Optional[int] = None
+    priority: Optional[int] = None
+    details: dict = field(default_factory=dict)
+
+    def __post_init__(self):
+        # Set default priority if not provided
+        if self.priority is None:
+            self.priority = DEFAULT_PRIORITIES.get(self.code, 3)
+
+    def to_dict(self) -> dict:
+        """Convert to dictionary for JSON serialization"""
+        return {
+            "code": self.code.value,
+            "severity": self.severity.value,
+            "message": self.message,
+            "file_path": self.file_path,
+            "line_number": self.line_number,
+            "priority": self.priority,
+            "details": self.details
+        }
+
+
+class ProblemLogger:
+    """Centralized problem logging system"""
+
+    def __init__(self, repo_url: str):
+        self.repo_url = repo_url
+        self.problems: list[Problem] = []
+
+    def log_problem(
+            self,
+            code: ProblemCode,
+            message: str,
+            severity: Severity = Severity.WARN,
+            file_path: Optional[str] = None,
+            line_number: Optional[int] = None,
+            priority: Optional[int] = None,
+            **details
+    ) -> None:
+        """Log a problem with optional details"""
+        problem = Problem(
+            code=code,
+            severity=severity,
+            message=message,
+            file_path=file_path,
+            line_number=line_number,
+            priority=priority,
+            details=details
+        )
+        self.problems.append(problem)
+
+    def log_pass(
+            self,
+            code: ProblemCode,
+            message: str,
+            **details
+    ) -> None:
+        """Log a successful check"""
+        self.log_problem(code, message, Severity.PASS, **details)
+
+    def get_problems(self, severity: Optional[Severity] = None) -> list[Problem]:
+        """Get all problems, optionally filtered by severity"""
+        if severity:
+            return [p for p in self.problems if p.severity == severity]
+        return self.problems
+
+    def to_csv(self, filepath: Path) -> None:
+        """Export problems to CSV format"""
+        with filepath.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(
+                f,
+                fieldnames=["repo_url", "code", "severity", "message", "file_path", "line_number", "priority",
+                            "details"]
+            )
+            writer.writeheader()
+            for problem in self.problems:
+                row = {
+                    "repo_url": self.repo_url,
+                    "code": problem.code.value,
+                    "severity": problem.severity.value,
+                    "message": problem.message,
+                    "file_path": problem.file_path or "",
+                    "line_number": problem.line_number or "",
+                    "priority": problem.priority,
+                    "details": json.dumps(problem.details) if problem.details else ""
+                }
+                writer.writerow(row)
+
+    def to_json(self, filepath: Path) -> None:
+        """Export problems to JSON format"""
+        data = {
+            "repo_url": self.repo_url,
+            "problems": [p.to_dict() for p in self.problems],
+            "summary": self.get_summary()
+        }
+        with filepath.open("w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+
+    def get_summary(self) -> dict:
+        """Get summary statistics"""
+        return {
+            "total": len(self.problems),
+            "pass": len(self.get_problems(Severity.PASS)),
+            "info": len(self.get_problems(Severity.INFO)),
+            "warn": len(self.get_problems(Severity.WARN)),
+            "fail": len(self.get_problems(Severity.FAIL)),
+            "skip": len(self.get_problems(Severity.SKIP)),
+        }
 
 
 # ============================================================================
@@ -88,50 +336,57 @@ def has_any(text_lc: str, patterns: list[str]) -> bool:
     return any(re.search(p, text_lc, flags=re.IGNORECASE) for p in patterns)
 
 
-def add_row(rows: list[dict], git_url: str, check_type: str, item: str, status: str, details: str) -> None:
-    """Add a row to results list."""
-    rows.append({
-        "repo_url": git_url,
-        "check_type": check_type,
-        "item": item,
-        "status": status,
-        "details": details
-    })
-
-
 # ============================================================================
 # BINARY & LARGE FILE CHECKS
 # ============================================================================
 
-def scan_binaries(repo_root: Path) -> list[dict]:
+def scan_binaries(repo_root: Path, logger: ProblemLogger) -> None:
     """Find binary/compiled files."""
-    rows = []
+    found_any = False
     for f in iter_files(repo_root):
         ext = f.suffix.lower()
         if ext in BINARY_EXTENSIONS:
+            found_any = True
             size = f.stat().st_size
-            rows.append({
-                "check_type": "binary_file",
-                "path": str(f.relative_to(repo_root)).replace("\\", "/"),
-                "size_bytes": str(size),
-                "reason": f"Extension {ext} flagged"
-            })
-    return rows
+            rel_path = str(f.relative_to(repo_root)).replace("\\", "/")
+            logger.log_problem(
+                ProblemCode.BINARY_FILE_DETECTED,
+                f"Binary file detected: {rel_path}",
+                Severity.FAIL,
+                file_path=rel_path,
+                extension=ext,
+                size_bytes=size
+            )
+
+    if not found_any:
+        logger.log_pass(
+            ProblemCode.BINARY_FILE_DETECTED,
+            "No binary files detected"
+        )
 
 
-def scan_large_files(repo_root: Path, threshold: int) -> list[dict]:
+def scan_large_files(repo_root: Path, threshold: int, logger: ProblemLogger) -> None:
     """Find files exceeding size threshold."""
-    rows = []
+    found_any = False
     for f in iter_files(repo_root):
         size = f.stat().st_size
         if size >= threshold:
-            rows.append({
-                "check_type": "large_file",
-                "path": str(f.relative_to(repo_root)).replace("\\", "/"),
-                "size_bytes": str(size),
-                "reason": f"File size >= {threshold} bytes"
-            })
-    return rows
+            found_any = True
+            rel_path = str(f.relative_to(repo_root)).replace("\\", "/")
+            logger.log_problem(
+                ProblemCode.LARGE_FILE_DETECTED,
+                f"Large file detected: {rel_path}",
+                Severity.WARN,
+                file_path=rel_path,
+                size_bytes=size,
+                threshold_bytes=threshold
+            )
+
+    if not found_any:
+        logger.log_pass(
+            ProblemCode.LARGE_FILE_DETECTED,
+            f"No large files detected (>= {threshold} bytes)"
+        )
 
 
 # ============================================================================
@@ -172,14 +427,17 @@ def local_links_in_readme(md: str) -> list[str]:
     return links
 
 
-def readme_checks(repo_root: Path, git_url: str, repo_name: str) -> list[dict]:
+def readme_checks(repo_root: Path, repo_name: str, logger: ProblemLogger) -> None:
     """Comprehensive README content checks."""
-    rows: list[dict] = []
     rp = readme_path(repo_root)
 
     if rp is None:
-        add_row(rows, git_url, "readme_check", "README content checks", "SKIP", "README not found")
-        return rows
+        logger.log_problem(
+            ProblemCode.ARTEFACT_README_MISSING,
+            "README file not found",
+            Severity.SKIP
+        )
+        return
 
     md = read_text_safe(rp)
     text_lc = md.lower()
@@ -188,215 +446,398 @@ def readme_checks(repo_root: Path, git_url: str, repo_name: str) -> list[dict]:
 
     # Project name
     title_ok = (repo_name_lc in text_lc[:4000]) or any(repo_name_lc in h for h in headings)
-    add_row(rows, git_url, "readme_check", "Project name",
-            "PASS" if title_ok else "WARN",
-            "Detected repo/project name" if title_ok else "Project name not clearly detected")
+    if title_ok:
+        logger.log_pass(ProblemCode.README_PROJECT_NAME_MISSING, "Project name detected in README")
+    else:
+        logger.log_problem(
+            ProblemCode.README_PROJECT_NAME_MISSING,
+            "Project name not clearly detected in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Copyright one-liner
     cr_ok = bool(re.search(r"copyright\s*(?:\(|©)?\s*(19|20)\d{2}", text_lc))
-    add_row(rows, git_url, "readme_check", "Copyright – short one-liner",
-            "PASS" if cr_ok else "WARN",
-            "Copyright + year detected" if cr_ok else "No clear copyright one-liner detected")
+    if cr_ok:
+        logger.log_pass(ProblemCode.README_COPYRIGHT_MISSING, "Copyright statement detected in README")
+    else:
+        logger.log_problem(
+            ProblemCode.README_COPYRIGHT_MISSING,
+            "No clear copyright one-liner detected in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Project status
     status_ok = has_any(text_lc, [r"\bstatus\b", r"\blifecycle\b", r"\bbeta\b", r"\bstable\b",
                                   r"\bretired\b", r"\bdeprecated\b", r"\bdevelopment\b"])
-    add_row(rows, git_url, "readme_check", "Project status – software lifecycle stage",
-            "PASS" if status_ok else "WARN",
-            "Lifecycle/status keywords detected" if status_ok else "No explicit lifecycle/status detected")
+    if status_ok:
+        logger.log_pass(ProblemCode.README_STATUS_MISSING, "Project status/lifecycle detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_STATUS_MISSING,
+            "No explicit lifecycle/status detected in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Tags
     tags_ok = has_any(text_lc, [r"^\s*tags?\s*[:\-]", r"\bkeywords?\b"])
-    add_row(rows, git_url, "readme_check", "Tags – relevant tags and categories",
-            "PASS" if tags_ok else "WARN",
-            "Tags/keywords detected" if tags_ok else "No tags/keywords detected")
+    if tags_ok:
+        logger.log_pass(ProblemCode.README_TAGS_MISSING, "Tags/keywords detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_TAGS_MISSING,
+            "No tags/keywords detected in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Version
-    version_ok = has_any(text_lc,
-                         [r"\bversion\s*v?\d+\.\d+(\.\d+)?", r"\brelease\s*v?\d+\.\d+", r"\bcurrent\s+version\b"])
-    add_row(rows, git_url, "readme_check", "Latest stable version indicated",
-            "PASS" if version_ok else "WARN",
-            "Version/release pattern detected" if version_ok else "No clear version indication")
+    version_ok = has_any(text_lc, [r"\bversion\s*v?\d+\.\d+(\.\d+)?", r"\brelease\s*v?\d+\.\d+"])
+    if version_ok:
+        logger.log_pass(ProblemCode.README_VERSION_MISSING, "Version indication detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_VERSION_MISSING,
+            "No clear version indication in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Licence one-liner
     lic_ok = has_any(text_lc, [r"\blicen[cs]ed\s+under\b", r"\blicen[cs]e\s*[:\-]",
                                r"\bMIT\b|\bApache\b|\bGPL\b|\bEUPL\b|\bBSD\b"]) and \
              has_any(text_lc, [r"\bLICENSE\b", r"\bCOPYING\b", r"https?://"])
-    add_row(rows, git_url, "readme_check", "Licence – short one-liner with link",
-            "PASS" if lic_ok else "WARN",
-            "Licence mention + reference detected" if lic_ok else "Licence one-liner/link not detected")
+    if lic_ok:
+        logger.log_pass(ProblemCode.README_LICENSE_ONELINER_MISSING, "Licence one-liner with link detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_LICENSE_ONELINER_MISSING,
+            "Licence one-liner/link not detected in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Badges
     badge_count = len(MD_BADGE_RE.findall(md))
-    add_row(rows, git_url, "readme_check", "Badges",
-            "PASS" if badge_count > 0 else "WARN",
-            f"Found {badge_count} badge(s)" if badge_count > 0 else "No badges detected")
+    if badge_count > 0:
+        logger.log_pass(ProblemCode.README_BADGES_MISSING, f"Found {badge_count} badge(s)", badge_count=badge_count)
+    else:
+        logger.log_problem(
+            ProblemCode.README_BADGES_MISSING,
+            "No badges detected in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Badge categories
-    badge_categories = [
-        ("Badges: Project metadata and release status", [r"release", r"tag", r"version", r"latest"]),
-        ("Badges: Package downloads and versions", [r"pypi", r"npm", r"maven", r"nuget", r"downloads"]),
-        ("Badges: Community engagement", [r"contributors", r"contributing", r"prs\s+welcome"]),
-        ("Badges: CI/CD workflows", [r"github\.com/.*/actions", r"travis", r"circleci", r"build\s+status"]),
-        ("Badges: Code quality", [r"codeql", r"sonar", r"codeclimate", r"quality"]),
-        ("Badges: Test coverage", [r"codecov", r"coveralls", r"coverage"]),
-        ("Badges: Security vulnerabilities", [r"snyk", r"dependabot", r"vulnerab", r"security"]),
-        ("Badges: Documentation", [r"readthedocs", r"docs", r"documentation\s+status"]),
-        ("Badges: Community support", [r"slack", r"discord", r"discourse", r"gitter"]),
+    badge_checks = [
+        (ProblemCode.README_BADGE_METADATA_MISSING, "Project metadata and release status",
+         [r"release", r"tag", r"version", r"latest"]),
+        (ProblemCode.README_BADGE_DOWNLOADS_MISSING, "Package downloads and versions",
+         [r"pypi", r"npm", r"maven", r"nuget", r"downloads"]),
+        (ProblemCode.README_BADGE_COMMUNITY_MISSING, "Community engagement",
+         [r"contributors", r"contributing", r"prs\s+welcome"]),
+        (ProblemCode.README_BADGE_CI_MISSING, "CI/CD workflows",
+         [r"github\.com/.*/actions", r"travis", r"circleci", r"build\s+status"]),
+        (ProblemCode.README_BADGE_QUALITY_MISSING, "Code quality",
+         [r"codeql", r"sonar", r"codeclimate", r"quality"]),
+        (ProblemCode.README_BADGE_COVERAGE_MISSING, "Test coverage",
+         [r"codecov", r"coveralls", r"coverage"]),
+        (ProblemCode.README_BADGE_SECURITY_MISSING, "Security vulnerabilities",
+         [r"snyk", r"dependabot", r"vulnerab", r"security"]),
+        (ProblemCode.README_BADGE_DOCS_MISSING, "Documentation",
+         [r"readthedocs", r"docs", r"documentation\s+status"]),
+        (ProblemCode.README_BADGE_SUPPORT_MISSING, "Community support",
+         [r"slack", r"discord", r"discourse", r"gitter"]),
     ]
 
-    for name, pats in badge_categories:
+    for code, name, pats in badge_checks:
         ok = any(re.search(p, md, flags=re.IGNORECASE) for p in pats)
-        add_row(rows, git_url, "readme_check", name,
-                "PASS" if ok else "WARN",
-                "Detected" if ok else "Not detected")
+        if ok:
+            logger.log_pass(code, f"Badge detected: {name}")
+        else:
+            logger.log_problem(code, f"Badge not detected: {name}", Severity.WARN, file_path="README")
 
     # Description
     desc_ok = len(text_lc) >= 100 and not text_lc.strip().startswith("#")
-    add_row(rows, git_url, "readme_check", "Description – clear and concise overview",
-            "PASS" if desc_ok else "WARN",
-            "Introduction content detected" if desc_ok else "No clear description/overview")
+    if desc_ok:
+        logger.log_pass(ProblemCode.README_DESCRIPTION_MISSING, "Description/overview detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_DESCRIPTION_MISSING,
+            "No clear description/overview in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Features
     feat_ok = ("features" in headings) or has_any(text_lc, [r"^\s*features?\s*[:\-]", r"## features"])
-    add_row(rows, git_url, "readme_check", "Features – key functionalities",
-            "PASS" if feat_ok else "WARN",
-            "Features section detected" if feat_ok else "No features section")
+    if feat_ok:
+        logger.log_pass(ProblemCode.README_FEATURES_MISSING, "Features section detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_FEATURES_MISSING,
+            "No features section in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Scope
     scope_ok = any(h in headings for h in ["scope", "use cases", "limitations", "constraints"]) or \
                has_any(text_lc, [r"\bscope\b", r"\buse\s+case", r"\blimitations?\b"])
-    add_row(rows, git_url, "readme_check", "Scope – contexts, use cases, limitations",
-            "PASS" if scope_ok else "WARN",
-            "Scope/use-case signals detected" if scope_ok else "No clear scope section")
+    if scope_ok:
+        logger.log_pass(ProblemCode.README_SCOPE_MISSING, "Scope/use-case signals detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_SCOPE_MISSING,
+            "No clear scope section in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Supported environments
     supp_ok = any(h in headings for h in ["supported", "compatibility", "platforms"]) or \
               has_any(text_lc, [r"\bsupported\b", r"\bcompatib", r"\bplatforms?\b"])
-    add_row(rows, git_url, "readme_check", "Supported tools/environments/clients",
-            "PASS" if supp_ok else "WARN",
-            "Compatibility signals detected" if supp_ok else "No compatibility section")
+    if supp_ok:
+        logger.log_pass(ProblemCode.README_COMPATIBILITY_MISSING, "Compatibility signals detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_COMPATIBILITY_MISSING,
+            "No compatibility section in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Components/structure
     comp_ok = any(h in headings for h in ["architecture", "components", "structure"]) or \
               has_any(text_lc, [r"\barchitecture\b", r"\bcomponents?\b", r"\bproject\s+structure\b"])
-    add_row(rows, git_url, "readme_check", "Components and/or project structure",
-            "PASS" if comp_ok else "WARN",
-            "Structure signals detected" if comp_ok else "No structure section")
+    if comp_ok:
+        logger.log_pass(ProblemCode.README_STRUCTURE_MISSING, "Structure signals detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_STRUCTURE_MISSING,
+            "No structure section in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # System requirements
     req_ok = any(h in headings for h in ["requirements", "prerequisites"]) or \
              has_any(text_lc, [r"\brequirements?\b", r"\bprerequisites?\b"])
-    add_row(rows, git_url, "readme_check", "System requirements",
-            "PASS" if req_ok else "WARN",
-            "Requirements detected" if req_ok else "No requirements section")
+    if req_ok:
+        logger.log_pass(ProblemCode.README_REQUIREMENTS_MISSING, "Requirements detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_REQUIREMENTS_MISSING,
+            "No requirements section in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Installation
     inst_ok = any(h in headings for h in ["installation", "install", "setup", "getting started"]) or \
               has_any(text_lc, [r"\binstall", r"\bsetup\b", r"\bgetting started\b"])
-    add_row(rows, git_url, "readme_check", "Installation – instructions or link",
-            "PASS" if inst_ok else "WARN",
-            "Installation signals detected" if inst_ok else "No installation section")
+    if inst_ok:
+        logger.log_pass(ProblemCode.README_INSTALLATION_MISSING, "Installation signals detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_INSTALLATION_MISSING,
+            "No installation section in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Usage
     usage_ok = any(h in headings for h in ["usage", "how to use", "examples", "quickstart"]) or \
                has_any(text_lc, [r"\busage\b", r"\bexample", r"\bquickstart\b"])
     codeblock_ok = "```" in md
-    add_row(rows, git_url, "readme_check", "Usage – examples/demos",
-            "PASS" if (usage_ok and codeblock_ok) else "WARN",
-            "Usage + code blocks detected" if (usage_ok and codeblock_ok) else "Usage/examples not clearly present")
+    if usage_ok and codeblock_ok:
+        logger.log_pass(ProblemCode.README_USAGE_MISSING, "Usage + code blocks detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_USAGE_MISSING,
+            "Usage/examples not clearly present in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Documentation
     docs_ok = any(h in headings for h in ["documentation", "docs"]) or \
               has_any(text_lc, [r"\bdocumentation\b", r"\bdocs/\b", r"readthedocs"])
-    add_row(rows, git_url, "readme_check", "Documentation – location",
-            "PASS" if docs_ok else "WARN",
-            "Documentation signals detected" if docs_ok else "No documentation location")
+    if docs_ok:
+        logger.log_pass(ProblemCode.README_DOCUMENTATION_MISSING, "Documentation signals detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_DOCUMENTATION_MISSING,
+            "No documentation location in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Version control
     vc_ok = has_any(text_lc, [r"\bbranch", r"\btag(s|ging)?", r"\brelease"])
-    add_row(rows, git_url, "readme_check", "Version control – branch structure/tagging",
-            "PASS" if vc_ok else "WARN",
-            "Branch/tag wording detected" if vc_ok else "No branch/tagging conventions")
+    if vc_ok:
+        logger.log_pass(ProblemCode.README_VERSION_CONTROL_MISSING, "Branch/tag wording detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_VERSION_CONTROL_MISSING,
+            "No branch/tagging conventions in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Troubleshooting/FAQ
     faq_ok = any(h in headings for h in ["troubleshooting", "faq"]) or \
              has_any(text_lc, [r"\btroubleshoot", r"\bfaq\b"])
-    add_row(rows, git_url, "readme_check", "Troubleshooting & FAQ",
-            "PASS" if faq_ok else "WARN",
-            "Troubleshooting/FAQ detected" if faq_ok else "No troubleshooting/FAQ")
+    if faq_ok:
+        logger.log_pass(ProblemCode.README_TROUBLESHOOTING_MISSING, "Troubleshooting/FAQ detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_TROUBLESHOOTING_MISSING,
+            "No troubleshooting/FAQ in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Support
     support_ok = has_any(text_lc, [r"\bissues\b", r"\bsupport\b", r"\bcontact\b"])
-    add_row(rows, git_url, "readme_check", "Support – contact/issue tracker",
-            "PASS" if support_ok else "WARN",
-            "Support/contact wording detected" if support_ok else "No support info")
+    if support_ok:
+        logger.log_pass(ProblemCode.README_SUPPORT_INFO_MISSING, "Support/contact wording detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_SUPPORT_INFO_MISSING,
+            "No support info in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Privacy policy
     privacy_ok = has_any(text_lc, [r"\bprivacy\b", r"privacy policy"])
-    add_row(rows, git_url, "readme_check", "Privacy policy (if applicable)",
-            "PASS" if privacy_ok else "WARN",
-            "Privacy wording detected" if privacy_ok else "No privacy policy")
+    if privacy_ok:
+        logger.log_pass(ProblemCode.README_PRIVACY_MISSING, "Privacy wording detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_PRIVACY_MISSING,
+            "No privacy policy in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Roadmap
     roadmap_ok = any(h in headings for h in ["roadmap"]) or \
                  has_any(text_lc, [r"\broadmap\b", r"\bplanned\b", r"\bfuture\b"])
-    add_row(rows, git_url, "readme_check", "Roadmap",
-            "PASS" if roadmap_ok else "WARN",
-            "Roadmap detected" if roadmap_ok else "No roadmap")
+    if roadmap_ok:
+        logger.log_pass(ProblemCode.README_ROADMAP_MISSING, "Roadmap detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_ROADMAP_MISSING,
+            "No roadmap in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Authors mention
     authors_ok = has_any(text_lc, [r"\bauthors?\b", r"\bcontributors?\b"])
-    add_row(rows, git_url, "readme_check", "Authors – mention/link",
-            "PASS" if authors_ok else "WARN",
-            "Authors mentioned" if authors_ok else "No authors mention")
+    if authors_ok:
+        logger.log_pass(ProblemCode.README_AUTHORS_MISSING, "Authors mentioned")
+    else:
+        logger.log_problem(
+            ProblemCode.README_AUTHORS_MISSING,
+            "No authors mention in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Contributing
     contrib_ok = any(h in headings for h in ["contributing"]) or \
                  has_any(text_lc, [r"\bcontributing\b", r"\bhow to contribute\b"])
-    add_row(rows, git_url, "readme_check", "Contributing – guidelines/link",
-            "PASS" if contrib_ok else "WARN",
-            "Contributing detected" if contrib_ok else "No contributing guidance")
+    if contrib_ok:
+        logger.log_pass(ProblemCode.README_CONTRIBUTING_MISSING, "Contributing detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_CONTRIBUTING_MISSING,
+            "No contributing guidance in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Funding
     fund_ok = has_any(text_lc, [r"\bfunding\b", r"\bgrant\b", r"\bhorizon\b", r"\beu\b"])
-    add_row(rows, git_url, "readme_check", "Funding – sources/grant",
-            "PASS" if fund_ok else "WARN",
-            "Funding wording detected" if fund_ok else "No funding info")
+    if fund_ok:
+        logger.log_pass(ProblemCode.README_FUNDING_MISSING, "Funding wording detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_FUNDING_MISSING,
+            "No funding info in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Acknowledgements
     ack_ok = has_any(text_lc, [r"\backnowledg", r"\bthanks\b"])
-    add_row(rows, git_url, "readme_check", "Other acknowledgements",
-            "PASS" if ack_ok else "WARN",
-            "Acknowledgements detected" if ack_ok else "No acknowledgements")
+    if ack_ok:
+        logger.log_pass(ProblemCode.README_ACKNOWLEDGEMENTS_MISSING, "Acknowledgements detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_ACKNOWLEDGEMENTS_MISSING,
+            "No acknowledgements in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Dependencies
     dep_ok = has_any(text_lc, [r"\bdependencies\b", r"\brequirements\b"]) or \
              any((repo_root / f).exists() for f in
                  ["package.json", "requirements.txt", "pyproject.toml", "pom.xml", "go.mod"])
-    add_row(rows, git_url, "readme_check", "Dependencies – main items listed",
-            "PASS" if dep_ok else "WARN",
-            "Dependencies/manifests detected" if dep_ok else "No dependencies section")
+    if dep_ok:
+        logger.log_pass(ProblemCode.README_DEPENDENCIES_MISSING, "Dependencies/manifests detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_DEPENDENCIES_MISSING,
+            "No dependencies section in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Tools used
     tools_ok = has_any(text_lc, [r"\btools?\b", r"\bbuilt with\b"]) or \
                any((repo_root / f).exists() for f in ["Makefile", "Dockerfile"])
-    add_row(rows, git_url, "readme_check", "Tools used – development/build",
-            "PASS" if tools_ok else "WARN",
-            "Tools indicators detected" if tools_ok else "No tools indicators")
+    if tools_ok:
+        logger.log_pass(ProblemCode.README_TOOLS_MISSING, "Tools indicators detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_TOOLS_MISSING,
+            "No tools indicators in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Licence paragraph
     lic_section = "license" in headings or has_any(text_lc, [r"^#+\s*licen[cs]e\b"])
     lic_para_ok = lic_section and has_any(text_lc, [r"\bLICENSE\b", r"https?://"])
-    add_row(rows, git_url, "readme_check", "Licence – summary paragraph + link",
-            "PASS" if lic_para_ok else "WARN",
-            "Licence section detected" if lic_para_ok else "No licence summary")
+    if lic_para_ok:
+        logger.log_pass(ProblemCode.README_LICENSE_PARAGRAPH_MISSING, "Licence section detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_LICENSE_PARAGRAPH_MISSING,
+            "No licence summary in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Copyright details
     cd_ok = has_any(text_lc, [r"\bCOPYRIGHT\b", r"copyright\s*(19|20)\d{2}"])
-    add_row(rows, git_url, "readme_check", "Copyright – additional details/link",
-            "PASS" if cd_ok else "WARN",
-            "COPYRIGHT reference detected" if cd_ok else "No COPYRIGHT reference")
+    if cd_ok:
+        logger.log_pass(ProblemCode.README_COPYRIGHT_DETAILS_MISSING, "COPYRIGHT reference detected")
+    else:
+        logger.log_problem(
+            ProblemCode.README_COPYRIGHT_DETAILS_MISSING,
+            "No COPYRIGHT reference in README",
+            Severity.WARN,
+            file_path="README"
+        )
 
     # Validate local links
     links = local_links_in_readme(md)
@@ -405,37 +846,56 @@ def readme_checks(repo_root: Path, git_url: str, repo_name: str) -> list[dict]:
         candidate = (repo_root / t).resolve()
         if str(candidate).startswith(str(repo_root.resolve())) and not candidate.exists():
             broken.append(t)
-    add_row(rows, git_url, "readme_check", "README local links resolve",
-            "PASS" if not broken else "WARN",
-            "All links valid" if not broken else f"Broken links: {', '.join(broken[:5])}")
 
-    return rows
+    if not broken:
+        logger.log_pass(ProblemCode.README_BROKEN_LINKS, "All README local links are valid")
+    else:
+        logger.log_problem(
+            ProblemCode.README_BROKEN_LINKS,
+            f"Broken links detected in README: {', '.join(broken[:5])}",
+            Severity.WARN,
+            file_path="README",
+            broken_links=broken
+        )
 
 
 # ============================================================================
 # LICENSE CHECKS
 # ============================================================================
 
-def license_checks(repo_root: Path, git_url: str) -> list[dict]:
+def license_checks(repo_root: Path, logger: ProblemLogger) -> None:
     """LICENSE file content checks."""
-    rows: list[dict] = []
     found = find_any(repo_root, ARTEFACTS["LICENSE"])
 
     if not found:
-        add_row(rows, git_url, "license_check", "LICENSE content checks", "SKIP", "LICENSE not found")
-        return rows
+        logger.log_problem(
+            ProblemCode.ARTEFACT_LICENSE_MISSING,
+            "LICENSE file not found",
+            Severity.SKIP
+        )
+        return
 
     lic_path = repo_root / found[0]
     text = read_text_safe(lic_path)
-    text_lc = text.lower()
 
-    # Full official license text (heuristic: substantial content)
+    # Full official license text
     full_text_ok = len(text) >= 500
-    add_row(rows, git_url, "license_check", "Full official licence text",
-            "PASS" if full_text_ok else "WARN",
-            f"LICENSE file has {len(text)} characters" if full_text_ok else "LICENSE file seems too short")
+    if full_text_ok:
+        logger.log_pass(
+            ProblemCode.LICENSE_FILE_TOO_SHORT,
+            f"LICENSE file has adequate length ({len(text)} characters)",
+            char_count=len(text)
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.LICENSE_FILE_TOO_SHORT,
+            "LICENSE file seems too short for full license text",
+            Severity.WARN,
+            file_path=found[0],
+            char_count=len(text)
+        )
 
-    # Common license detection
+    # License type detection
     licenses_detected = []
     license_patterns = {
         "MIT": r"\bMIT License\b",
@@ -449,25 +909,36 @@ def license_checks(repo_root: Path, git_url: str) -> list[dict]:
         if re.search(pattern, text, flags=re.IGNORECASE):
             licenses_detected.append(lic_name)
 
-    add_row(rows, git_url, "license_check", "License type detection",
-            "PASS" if licenses_detected else "WARN",
-            f"Detected: {', '.join(licenses_detected)}" if licenses_detected else "No standard license detected")
-
-    return rows
+    if licenses_detected:
+        logger.log_pass(
+            ProblemCode.LICENSE_TYPE_UNKNOWN,
+            f"License type detected: {', '.join(licenses_detected)}",
+            licenses=licenses_detected
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.LICENSE_TYPE_UNKNOWN,
+            "No standard license type detected in LICENSE file",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
 
 # ============================================================================
 # COPYRIGHT CHECKS
 # ============================================================================
 
-def copyright_checks(repo_root: Path, git_url: str) -> list[dict]:
+def copyright_checks(repo_root: Path, logger: ProblemLogger) -> None:
     """COPYRIGHT file content checks."""
-    rows: list[dict] = []
     found = find_any(repo_root, ARTEFACTS["COPYRIGHT"])
 
     if not found:
-        add_row(rows, git_url, "copyright_check", "COPYRIGHT content checks", "SKIP", "COPYRIGHT not found")
-        return rows
+        logger.log_problem(
+            ProblemCode.ARTEFACT_COPYRIGHT_MISSING,
+            "COPYRIGHT file not found",
+            Severity.SKIP
+        )
+        return
 
     cr_path = repo_root / found[0]
     text = read_text_safe(cr_path)
@@ -475,43 +946,89 @@ def copyright_checks(repo_root: Path, git_url: str) -> list[dict]:
 
     # Copyright statement with year
     cr_year_ok = bool(re.search(r"copyright\s*(?:\(|©)?\s*(19|20)\d{2}", text_lc))
-    add_row(rows, git_url, "copyright_check", "Copyright statement with years",
-            "PASS" if cr_year_ok else "WARN",
-            "Copyright + year detected" if cr_year_ok else "No clear copyright statement with year")
+    if cr_year_ok:
+        logger.log_pass(
+            ProblemCode.COPYRIGHT_STATEMENT_MISSING,
+            "Copyright statement with year detected",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.COPYRIGHT_STATEMENT_MISSING,
+            "No clear copyright statement with year in COPYRIGHT file",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
-    # GÉANT mention (optional for non-GÉANT projects)
+    # GÉANT mention
     geant_ok = "geant" in text_lc or "géant" in text_lc
-    add_row(rows, git_url, "copyright_check", "GÉANT copyright (if applicable)",
-            "PASS" if geant_ok else "WARN",
-            "GÉANT mentioned" if geant_ok else "No GÉANT mention (may not be required)")
+    if geant_ok:
+        logger.log_pass(
+            ProblemCode.COPYRIGHT_GEANT_MISSING,
+            "GÉANT copyright mention detected",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.COPYRIGHT_GEANT_MISSING,
+            "No GÉANT mention in COPYRIGHT (may not be required for non-GÉANT projects)",
+            Severity.WARN,
+            file_path=found[0],
+            note="Optional for non-GÉANT projects"
+        )
 
     # Multiple copyright holders
     copyright_count = len(re.findall(r"copyright\s*(?:\(|©)?", text_lc))
-    add_row(rows, git_url, "copyright_check", "Copyright statements present",
-            "PASS" if copyright_count >= 1 else "WARN",
-            f"Found {copyright_count} copyright statement(s)")
+    if copyright_count >= 1:
+        logger.log_pass(
+            ProblemCode.COPYRIGHT_STATEMENTS_COUNT,
+            f"Found {copyright_count} copyright statement(s)",
+            count=copyright_count
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.COPYRIGHT_STATEMENTS_COUNT,
+            "No copyright statements found",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
-    # EU logo check (file-based)
-    eu_logo_ok = any((repo_root / f).exists() for f in ["eu-logo.png", "eu-flag.png", "EU-logo.jpg", "EU-flag.jpg"])
-    add_row(rows, git_url, "copyright_check", "EU logo present (if required)",
-            "PASS" if eu_logo_ok else "WARN",
-            "EU logo file detected" if eu_logo_ok else "No EU logo file detected")
+    # EU logo check
+    eu_logo_files = ["eu-logo.png", "eu-flag.png", "EU-logo.jpg", "EU-flag.jpg", "eu_flag.svg"]
+    eu_logo_ok = any((repo_root / f).exists() for f in eu_logo_files)
 
-    return rows
+    if eu_logo_ok:
+        found_logos = [f for f in eu_logo_files if (repo_root / f).exists()]
+        logger.log_pass(
+            ProblemCode.COPYRIGHT_EU_LOGO_MISSING,
+            f"EU logo file detected: {', '.join(found_logos)}",
+            logo_files=found_logos
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.COPYRIGHT_EU_LOGO_MISSING,
+            "No EU logo file detected (eu-logo.png, eu-flag.png, etc.)",
+            Severity.WARN,
+            expected_locations=eu_logo_files,
+            note="Required for EU-funded projects"
+        )
 
 
 # ============================================================================
 # AUTHORS CHECKS
 # ============================================================================
 
-def authors_checks(repo_root: Path, git_url: str) -> list[dict]:
+def authors_checks(repo_root: Path, logger: ProblemLogger) -> None:
     """AUTHORS file content checks."""
-    rows: list[dict] = []
     found = find_any(repo_root, ARTEFACTS["AUTHORS"])
 
     if not found:
-        add_row(rows, git_url, "authors_check", "AUTHORS content checks", "SKIP", "AUTHORS not found")
-        return rows
+        logger.log_problem(
+            ProblemCode.ARTEFACT_AUTHORS_MISSING,
+            "AUTHORS file not found",
+            Severity.SKIP
+        )
+        return
 
     auth_path = repo_root / found[0]
     text = read_text_safe(auth_path)
@@ -519,44 +1036,86 @@ def authors_checks(repo_root: Path, git_url: str) -> list[dict]:
 
     # GÉANT phase/work package
     geant_phase_ok = bool(re.search(r"gn\d+|géant\s+\d+|work\s+package|wp\d+|task\s+\d+", text_lc))
-    add_row(rows, git_url, "authors_check", "GÉANT phase/work package (if applicable)",
-            "PASS" if geant_phase_ok else "WARN",
-            "GÉANT phase/WP detected" if geant_phase_ok else "No GÉANT phase/WP detected")
+    if geant_phase_ok:
+        logger.log_pass(
+            ProblemCode.AUTHORS_GEANT_PHASE_MISSING,
+            "GÉANT phase/WP detected",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.AUTHORS_GEANT_PHASE_MISSING,
+            "No GÉANT phase/WP detected in AUTHORS (may not be required for non-GÉANT projects)",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Developers list (heuristic: multiple names/emails)
     email_count = len(re.findall(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", text))
     name_lines = len([line for line in text.split("\n") if line.strip() and not line.strip().startswith("#")])
-    add_row(rows, git_url, "authors_check", "Developers with contacts",
-            "PASS" if email_count >= 1 or name_lines >= 2 else "WARN",
-            f"Found {email_count} email(s), {name_lines} non-empty lines")
+    if email_count >= 1 or name_lines >= 2:
+        logger.log_pass(
+            ProblemCode.AUTHORS_CONTACTS_MISSING,
+            f"Found {email_count} email(s), {name_lines} non-empty lines",
+            email_count=email_count,
+            name_lines=name_lines
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.AUTHORS_CONTACTS_MISSING,
+            "Insufficient developer contact information in AUTHORS",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Contributors mention
     contrib_ok = has_any(text_lc, [r"\bcontributors?\b", r"\bother\b"])
-    add_row(rows, git_url, "authors_check", "Other contributors mentioned",
-            "PASS" if contrib_ok else "WARN",
-            "Contributors section detected" if contrib_ok else "No contributors section")
+    if contrib_ok:
+        logger.log_pass(
+            ProblemCode.AUTHORS_CONTRIBUTORS_MISSING,
+            "Contributors section detected",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.AUTHORS_CONTRIBUTORS_MISSING,
+            "No contributors section in AUTHORS",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Funding information
     fund_ok = has_any(text_lc, [r"\bfunding\b", r"\bgrant\b", r"\bsponsored\b"])
-    add_row(rows, git_url, "authors_check", "Funding information",
-            "PASS" if fund_ok else "WARN",
-            "Funding info detected" if fund_ok else "No funding info")
-
-    return rows
+    if fund_ok:
+        logger.log_pass(
+            ProblemCode.AUTHORS_FUNDING_MISSING,
+            "Funding info detected",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.AUTHORS_FUNDING_MISSING,
+            "No funding info in AUTHORS",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
 
 # ============================================================================
 # NOTICE CHECKS
 # ============================================================================
 
-def notice_checks(repo_root: Path, git_url: str, repo_name: str) -> list[dict]:
+def notice_checks(repo_root: Path, repo_name: str, logger: ProblemLogger) -> None:
     """NOTICE file content checks."""
-    rows: list[dict] = []
     found = find_any(repo_root, ARTEFACTS["NOTICE"])
 
     if not found:
-        add_row(rows, git_url, "notice_check", "NOTICE content checks", "SKIP", "NOTICE not found")
-        return rows
+        logger.log_problem(
+            ProblemCode.ARTEFACT_NOTICE_MISSING,
+            "NOTICE file not found",
+            Severity.SKIP
+        )
+        return
 
     notice_path = repo_root / found[0]
     text = read_text_safe(notice_path)
@@ -564,79 +1123,180 @@ def notice_checks(repo_root: Path, git_url: str, repo_name: str) -> list[dict]:
 
     # Project name
     proj_ok = (repo_name.lower() in text_lc) or has_any(text_lc, [r"^\s*project\s*[:\-]"])
-    add_row(rows, git_url, "notice_check", "Project name",
-            "PASS" if proj_ok else "WARN",
-            "Project name detected" if proj_ok else "Project name not detected")
+    if proj_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_PROJECT_NAME_MISSING,
+            "Project name detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_PROJECT_NAME_MISSING,
+            "Project name not detected in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Copyright
     cr_ok = has_any(text_lc, [r"copyright"]) and bool(re.search(r"(19|20)\d{2}", text))
-    add_row(rows, git_url, "notice_check", "Copyright – short one-liner",
-            "PASS" if cr_ok else "WARN",
-            "Copyright with year detected" if cr_ok else "No copyright with year")
+    if cr_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_COPYRIGHT_MISSING,
+            "Copyright with year detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_COPYRIGHT_MISSING,
+            "No copyright with year in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Licence declaration
     lic_ok = has_any(text_lc, [r"licen[cs]e"]) and (has_any(text_lc, [r"https?://", r"\bLICENSE\b", r"\bCOPYING\b"]))
-    add_row(rows, git_url, "notice_check", "Licence – declaration/link",
-            "PASS" if lic_ok else "WARN",
-            "Licence declaration detected" if lic_ok else "No licence declaration")
+    if lic_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_LICENSE_MISSING,
+            "Licence declaration detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_LICENSE_MISSING,
+            "No licence declaration in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Authors/contributors
     auth_ok = has_any(text_lc, [r"\bauthors?\b", r"\bcontributors?\b", r"\bAUTHORS\b"])
-    add_row(rows, git_url, "notice_check", "Authors and contributors – link",
-            "PASS" if auth_ok else "WARN",
-            "Authors reference detected" if auth_ok else "No authors reference")
+    if auth_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_AUTHORS_MISSING,
+            "Authors reference detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_AUTHORS_MISSING,
+            "No authors reference in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Third-party components
     third_ok = has_any(text_lc, [r"third[-\s]?party", r"dependencies"]) or (text_lc.count("license") >= 2)
-    add_row(rows, git_url, "notice_check", "Third-party components",
-            "PASS" if third_ok else "WARN",
-            "Third-party section detected" if third_ok else "No third-party components listing")
+    if third_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_THIRD_PARTY_MISSING,
+            "Third-party section detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_THIRD_PARTY_MISSING,
+            "No third-party components listing in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Tools used
     tools_ok = has_any(text_lc, [r"\btools?\b", r"\bbuilt with\b"])
-    add_row(rows, git_url, "notice_check", "Tools used",
-            "PASS" if tools_ok else "WARN",
-            "Tools mention detected" if tools_ok else "No tools mention")
+    if tools_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_TOOLS_MISSING,
+            "Tools mention detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_TOOLS_MISSING,
+            "No tools mention in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Trademark
     tm_ok = has_any(text_lc, [r"trademark"]) or ("™" in text) or ("®" in text)
-    add_row(rows, git_url, "notice_check", "Trademark disclaimer",
-            "PASS" if tm_ok else "WARN",
-            "Trademark wording detected" if tm_ok else "No trademark wording")
+    if tm_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_TRADEMARK_MISSING,
+            "Trademark wording detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_TRADEMARK_MISSING,
+            "No trademark wording in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Patents
     pat_ok = has_any(text_lc, [r"patent"])
-    add_row(rows, git_url, "notice_check", "Patents statements",
-            "PASS" if pat_ok else "WARN",
-            "Patent wording detected" if pat_ok else "No patent wording")
+    if pat_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_PATENTS_MISSING,
+            "Patent wording detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_PATENTS_MISSING,
+            "No patent wording in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Acknowledgements
     ack_ok = has_any(text_lc, [r"acknowledg", r"\bthanks\b", r"\bfunding\b"])
-    add_row(rows, git_url, "notice_check", "Special acknowledgements",
-            "PASS" if ack_ok else "WARN",
-            "Acknowledgements detected" if ack_ok else "No acknowledgements")
+    if ack_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_ACKNOWLEDGEMENTS_MISSING,
+            "Acknowledgements detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_ACKNOWLEDGEMENTS_MISSING,
+            "No acknowledgements in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Prior notices
     prior_ok = has_any(text_lc, [r"prior notice", r"this product includes", r"third[-\s]?party notices"])
-    add_row(rows, git_url, "notice_check", "Prior notices for third-party components",
-            "PASS" if prior_ok else "WARN",
-            "Prior-notice wording detected" if prior_ok else "No prior-notice wording")
-
-    return rows
+    if prior_ok:
+        logger.log_pass(
+            ProblemCode.NOTICE_PRIOR_NOTICES_MISSING,
+            "Prior-notice wording detected in NOTICE",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.NOTICE_PRIOR_NOTICES_MISSING,
+            "No prior-notice wording in NOTICE",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
 
 # ============================================================================
 # CHANGELOG CHECKS
 # ============================================================================
 
-def changelog_checks(repo_root: Path, git_url: str, repo_name: str) -> list[dict]:
+def changelog_checks(repo_root: Path, repo_name: str, logger: ProblemLogger) -> None:
     """CHANGELOG file content checks."""
-    rows: list[dict] = []
     found = find_any(repo_root, ARTEFACTS["CHANGELOG"])
 
     if not found:
-        add_row(rows, git_url, "changelog_check", "CHANGELOG content checks", "SKIP", "CHANGELOG not found")
-        return rows
+        logger.log_problem(
+            ProblemCode.ARTEFACT_CHANGELOG_MISSING,
+            "CHANGELOG file not found",
+            Severity.SKIP
+        )
+        return
 
     cl_path = repo_root / found[0]
     text = read_text_safe(cl_path)
@@ -644,41 +1304,71 @@ def changelog_checks(repo_root: Path, git_url: str, repo_name: str) -> list[dict
 
     # Project name
     proj_ok = repo_name.lower() in text_lc[:500]
-    add_row(rows, git_url, "changelog_check", "Project name",
-            "PASS" if proj_ok else "WARN",
-            "Project name detected" if proj_ok else "Project name not detected")
+    if proj_ok:
+        logger.log_pass(
+            ProblemCode.CHANGELOG_PROJECT_NAME_MISSING,
+            "Project name detected in CHANGELOG",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.CHANGELOG_PROJECT_NAME_MISSING,
+            "Project name not detected in CHANGELOG",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Reverse chronological order (heuristic: latest version/date first)
     lines = [l.strip() for l in text.split("\n") if l.strip()]
     version_lines = [l for l in lines if re.search(r"v?\d+\.\d+(\.\d+)?|unreleased", l, re.IGNORECASE)]
     chrono_ok = len(version_lines) >= 1
-    add_row(rows, git_url, "changelog_check", "Entries in reverse chronological order",
-            "PASS" if chrono_ok else "WARN",
-            "Version entries detected" if chrono_ok else "No clear version entries")
+    if chrono_ok:
+        logger.log_pass(
+            ProblemCode.CHANGELOG_NOT_CHRONOLOGICAL,
+            "Version entries detected in CHANGELOG",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.CHANGELOG_NOT_CHRONOLOGICAL,
+            "No clear version entries in CHANGELOG",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Version numbers and dates
     version_ok = bool(re.search(r"v?\d+\.\d+(\.\d+)?\s*-?\s*\d{4}", text))
-    add_row(rows, git_url, "changelog_check", "Version numbers, dates and summaries",
-            "PASS" if version_ok else "WARN",
-            "Version + date pattern detected" if version_ok else "No clear version/date pattern")
+    if version_ok:
+        logger.log_pass(
+            ProblemCode.CHANGELOG_VERSION_DATE_MISSING,
+            "Version + date pattern detected in CHANGELOG",
+            file_path=found[0]
+        )
+    else:
+        logger.log_problem(
+            ProblemCode.CHANGELOG_VERSION_DATE_MISSING,
+            "No clear version/date pattern in CHANGELOG",
+            Severity.WARN,
+            file_path=found[0]
+        )
 
     # Changelog sections
     sections = [
-        ("Added – features or items", [r"^\s*##?\s*added\b", r"^\s*\*\*added\*\*"]),
-        ("Changed – features or items", [r"^\s*##?\s*changed\b", r"^\s*\*\*changed\*\*"]),
-        ("Deprecated – features or items", [r"^\s*##?\s*deprecated\b", r"^\s*\*\*deprecated\*\*"]),
-        ("Removed – features or items", [r"^\s*##?\s*removed\b", r"^\s*\*\*removed\*\*"]),
-        ("Fixed – bugs or issues", [r"^\s*##?\s*fixed\b", r"^\s*\*\*fixed\*\*"]),
-        ("Security – updates or patches", [r"^\s*##?\s*security\b", r"^\s*\*\*security\*\*"]),
+        (ProblemCode.CHANGELOG_ADDED_MISSING, "Added", [r"^\s*##?\s*added\b", r"^\s*\*\*added\*\*"]),
+        (ProblemCode.CHANGELOG_CHANGED_MISSING, "Changed", [r"^\s*##?\s*changed\b", r"^\s*\*\*changed\*\*"]),
+        (ProblemCode.CHANGELOG_DEPRECATED_MISSING, "Deprecated",
+         [r"^\s*##?\s*deprecated\b", r"^\s*\*\*deprecated\*\*"]),
+        (ProblemCode.CHANGELOG_REMOVED_MISSING, "Removed", [r"^\s*##?\s*removed\b", r"^\s*\*\*removed\*\*"]),
+        (ProblemCode.CHANGELOG_FIXED_MISSING, "Fixed", [r"^\s*##?\s*fixed\b", r"^\s*\*\*fixed\*\*"]),
+        (ProblemCode.CHANGELOG_SECURITY_MISSING, "Security", [r"^\s*##?\s*security\b", r"^\s*\*\*security\*\*"]),
     ]
 
-    for name, pats in sections:
+    for code, name, pats in sections:
         ok = any(re.search(p, text_lc, flags=re.MULTILINE | re.IGNORECASE) for p in pats)
-        add_row(rows, git_url, "changelog_check", name,
-                "PASS" if ok else "WARN",
-                f"{name.split(' – ')[0]} section detected" if ok else f"No {name.split(' – ')[0]} section")
-
-    return rows
+        if ok:
+            logger.log_pass(code, f"{name} section detected in CHANGELOG", file_path=found[0])
+        else:
+            logger.log_problem(code, f"No {name} section in CHANGELOG", Severity.WARN, file_path=found[0])
 
 
 # ============================================================================
@@ -687,13 +1377,18 @@ def changelog_checks(repo_root: Path, git_url: str, repo_name: str) -> list[dict
 
 def main() -> int:
     if len(sys.argv) < 2:
-        print("Usage: python check_repo_artefacts.py <git_url>")
-        print("Example: python check_repo_artefacts.py https://github.com/GEANT/CAT.git")
+        print("Usage: python check_repo_artefacts.py <git_url> [--format csv|json|both]")
+        print("Example: python check_repo_artefacts.py https://github.com/GEANT/CAT.git --format both")
         return 2
 
     git_url = sys.argv[1].strip()
-    csv_file = Path("artefact_check.csv")
-    rows = []
+    output_format = "csv"  # default
+
+    if len(sys.argv) >= 4 and sys.argv[2] == "--format":
+        output_format = sys.argv[3].lower()
+        if output_format not in ["csv", "json", "both"]:
+            print("ERROR: format must be csv, json, or both")
+            return 2
 
     with tempfile.TemporaryDirectory(prefix="artefact_check_") as tmpdir:
         repo_dir = Path(tmpdir) / "repo"
@@ -712,104 +1407,131 @@ def main() -> int:
         repo_name = repo_name_from_url(git_url)
         print(f"Repository name: {repo_name}\n")
 
+        # Initialize problem logger
+        logger = ProblemLogger(git_url)
+
         # ===== KEY ARTEFACTS PRESENCE =====
         print("Checking key artifacts...")
-        found_map = {}
         for artefact, candidates in ARTEFACTS.items():
             found = find_any(repo_dir, candidates)
-            found_map[artefact] = found
-            status = "PASS" if found else "FAIL"
-            add_row(rows, git_url, "key_artefact", artefact, status, ", ".join(found) if found else "Not found")
+            code_name = f"ARTEFACT_{artefact}_MISSING"
+            code = ProblemCode[code_name]
+
+            if found:
+                logger.log_pass(code, f"{artefact} file found: {', '.join(found)}", files=found)
+            else:
+                logger.log_problem(
+                    code,
+                    f"{artefact} file not found",
+                    Severity.FAIL if artefact in ["README", "LICENSE"] else Severity.WARN
+                )
 
         # ===== BINARY FILES =====
         print("Scanning for binary files...")
-        bin_rows = scan_binaries(repo_dir)
-        if not bin_rows:
-            add_row(rows, git_url, "binary_file", "Binary artefacts", "PASS", "No binary files detected")
-        else:
-            for r in bin_rows:
-                add_row(rows, git_url, r["check_type"], r["path"], "FAIL",
-                        f'{r["reason"]}; size={r["size_bytes"]}')
+        scan_binaries(repo_dir, logger)
 
         # ===== LARGE FILES =====
         print("Scanning for large files...")
-        large_rows = scan_large_files(repo_dir, LARGE_FILE_THRESHOLD_BYTES)
-        if not large_rows:
-            add_row(rows, git_url, "large_file", f"Large files (>= {LARGE_FILE_THRESHOLD_BYTES} bytes)",
-                    "PASS", "No large files detected")
-        else:
-            for r in large_rows:
-                add_row(rows, git_url, r["check_type"], r["path"], "WARN",
-                        f'{r["reason"]}; size={r["size_bytes"]}')
+        scan_large_files(repo_dir, LARGE_FILE_THRESHOLD_BYTES, logger)
 
         # ===== CONTENT CHECKS =====
         print("Analyzing README content...")
-        rows.extend(readme_checks(repo_dir, git_url, repo_name))
+        readme_checks(repo_dir, repo_name, logger)
 
         print("Analyzing LICENSE content...")
-        rows.extend(license_checks(repo_dir, git_url))
+        license_checks(repo_dir, logger)
 
         print("Analyzing COPYRIGHT content...")
-        rows.extend(copyright_checks(repo_dir, git_url))
+        copyright_checks(repo_dir, logger)
 
         print("Analyzing AUTHORS content...")
-        rows.extend(authors_checks(repo_dir, git_url))
+        authors_checks(repo_dir, logger)
 
         print("Analyzing NOTICE content...")
-        rows.extend(notice_checks(repo_dir, git_url, repo_name))
+        notice_checks(repo_dir, repo_name, logger)
 
         print("Analyzing CHANGELOG content...")
-        rows.extend(changelog_checks(repo_dir, git_url, repo_name))
+        changelog_checks(repo_dir, repo_name, logger)
 
         # ===== CONDITIONAL CHECKS =====
         # Contributing fallback
-        if not found_map.get("CONTRIBUTING"):
+        found_contrib = find_any(repo_dir, ARTEFACTS["CONTRIBUTING"])
+        if not found_contrib:
             rp = readme_path(repo_dir)
             if rp:
                 md = read_text_safe(rp).lower()
                 contrib_ok = bool(re.search(r"\bcontributing\b", md))
-                add_row(rows, git_url, "conditional_check", "Contributing (fallback to README)",
-                        "PASS" if contrib_ok else "FAIL",
-                        "Found in README" if contrib_ok else "Not in CONTRIBUTING file or README")
+                if contrib_ok:
+                    logger.log_pass(
+                        ProblemCode.CONTRIBUTING_FALLBACK_MISSING,
+                        "Contributing found in README (fallback)",
+                        file_path="README"
+                    )
+                else:
+                    logger.log_problem(
+                        ProblemCode.CONTRIBUTING_FALLBACK_MISSING,
+                        "Not in CONTRIBUTING file or README",
+                        Severity.FAIL
+                    )
             else:
-                add_row(rows, git_url, "conditional_check", "Contributing (fallback to README)",
-                        "FAIL", "No CONTRIBUTING file and README missing")
+                logger.log_problem(
+                    ProblemCode.CONTRIBUTING_FALLBACK_MISSING,
+                    "No CONTRIBUTING file and README missing",
+                    Severity.FAIL
+                )
 
         # Authors fallback
-        if not found_map.get("AUTHORS"):
+        found_authors = find_any(repo_dir, ARTEFACTS["AUTHORS"])
+        if not found_authors:
             rp = readme_path(repo_dir)
             if rp:
                 md = read_text_safe(rp).lower()
                 authors_ok = bool(re.search(r"\bauthor|contributors?\b", md))
-                add_row(rows, git_url, "conditional_check", "Authors (fallback to README)",
-                        "PASS" if authors_ok else "WARN",
-                        "Found in README" if authors_ok else "Not in AUTHORS file or README")
+                if authors_ok:
+                    logger.log_pass(
+                        ProblemCode.AUTHORS_FALLBACK_MISSING,
+                        "Authors found in README (fallback)",
+                        file_path="README"
+                    )
+                else:
+                    logger.log_problem(
+                        ProblemCode.AUTHORS_FALLBACK_MISSING,
+                        "Not in AUTHORS file or README",
+                        Severity.WARN
+                    )
 
-    # ===== WRITE RESULTS =====
-    with csv_file.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(
-            f,
-            fieldnames=["repo_url", "check_type", "item", "status", "details"]
-        )
-        writer.writeheader()
-        writer.writerows(rows)
+        # ===== WRITE RESULTS =====
+        if output_format in ["csv", "both"]:
+            csv_file = Path("artefact_check.csv")
+            logger.to_csv(csv_file)
+            print(f"\n{'=' * 70}")
+            print(f"CSV report written to: {csv_file.resolve()}")
 
-    print(f"\n{'=' * 70}")
-    print(f"CSV report written to: {csv_file.resolve()}")
-    print(f"Total checks performed: {len(rows)}")
+        if output_format in ["json", "both"]:
+            json_file = Path("artefact_check.json")
+            logger.to_json(json_file)
+            print(f"JSON report written to: {json_file.resolve()}")
 
-    # Summary statistics
-    pass_count = sum(1 for r in rows if r["status"] == "PASS")
-    warn_count = sum(1 for r in rows if r["status"] == "WARN")
-    fail_count = sum(1 for r in rows if r["status"] == "FAIL")
-    skip_count = sum(1 for r in rows if r["status"] == "SKIP")
+        # Print summary
+        summary = logger.get_summary()
+        print(f"\n{'=' * 70}")
+        print(f"Total checks performed: {summary['total']}")
+        print(f"\nResults Summary:")
+        print(f"  PASS: {summary['pass']}")
+        print(f"  INFO: {summary['info']}")
+        print(f"  WARN: {summary['warn']}")
+        print(f"  FAIL: {summary['fail']}")
+        print(f"  SKIP: {summary['skip']}")
 
-    print(f"\nResults Summary:")
-    print(f"  PASS: {pass_count}")
-    print(f"  WARN: {warn_count}")
-    print(f"  FAIL: {fail_count}")
-    print(f"  SKIP: {skip_count}")
-    print(f"{'=' * 70}\n")
+        # Print high-priority failures
+        high_priority_fails = [p for p in logger.problems if p.severity == Severity.FAIL and p.priority <= 2]
+        if high_priority_fails:
+            print(f"\n{'=' * 70}")
+            print("HIGH PRIORITY ISSUES:")
+            for p in high_priority_fails:
+                print(f"  [{p.code.value}] {p.message}")
+
+        print(f"{'=' * 70}\n")
 
     return 0
 

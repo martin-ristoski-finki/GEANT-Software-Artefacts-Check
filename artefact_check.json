@@ -1,0 +1,1269 @@
+{
+  "repo_url": "https://github.com/GEANT/CAT.git",
+  "problems": [
+    {
+      "code": "ARTEFACT_README_MISSING",
+      "severity": "PASS",
+      "message": "README file found: README.md",
+      "file_path": null,
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "files": [
+          "README.md"
+        ]
+      }
+    },
+    {
+      "code": "ARTEFACT_LICENSE_MISSING",
+      "severity": "PASS",
+      "message": "LICENSE file found: LICENSE",
+      "file_path": null,
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "files": [
+          "LICENSE"
+        ]
+      }
+    },
+    {
+      "code": "ARTEFACT_NOTICE_MISSING",
+      "severity": "WARN",
+      "message": "NOTICE file not found",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "ARTEFACT_COPYRIGHT_MISSING",
+      "severity": "WARN",
+      "message": "COPYRIGHT file not found",
+      "file_path": null,
+      "line_number": null,
+      "priority": 2,
+      "details": {}
+    },
+    {
+      "code": "ARTEFACT_AUTHORS_MISSING",
+      "severity": "WARN",
+      "message": "AUTHORS file not found",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "ARTEFACT_CHANGELOG_MISSING",
+      "severity": "PASS",
+      "message": "CHANGELOG file found: Changes.md, CHANGES.md",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {
+        "files": [
+          "Changes.md",
+          "CHANGES.md"
+        ]
+      }
+    },
+    {
+      "code": "ARTEFACT_CONTRIBUTING_MISSING",
+      "severity": "WARN",
+      "message": "CONTRIBUTING file not found",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: geteduroam-stable.apk",
+      "file_path": "geteduroam-stable.apk",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".apk",
+        "size_bytes": 21
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: geteduroam_1_0_16.apk",
+      "file_path": "geteduroam_1_0_16.apk",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".apk",
+        "size_bytes": 7095405
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: web/eduroamCAT-1-1-44.apk",
+      "file_path": "web/eduroamCAT-1-1-44.apk",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".apk",
+        "size_bytes": 805165
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: web/eduroamCAT-beta.apk",
+      "file_path": "web/eduroamCAT-beta.apk",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".apk",
+        "size_bytes": 21
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: web/eduroamCAT-stable.apk",
+      "file_path": "web/eduroamCAT-stable.apk",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".apk",
+        "size_bytes": 21
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/bin/makensis.exe",
+      "file_path": "tests/nsis3/bin/makensis.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 2560
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Bin/MakeLangId.exe",
+      "file_path": "tests/nsis3/share/nsis/Bin/MakeLangId.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 25600
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Bin/makensisw.exe",
+      "file_path": "tests/nsis3/share/nsis/Bin/makensisw.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 968704
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Bin/RegTool-x86.bin",
+      "file_path": "tests/nsis3/share/nsis/Bin/RegTool-x86.bin",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".bin",
+        "size_bytes": 11776
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Bin/zip2exe.exe",
+      "file_path": "tests/nsis3/share/nsis/Bin/zip2exe.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 39424
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Bin/zlib1.dll",
+      "file_path": "tests/nsis3/share/nsis/Bin/zlib1.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 81964
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x64-ansi/nsArray.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x64-ansi/nsArray.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 16384
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x64-unicode/nsArray.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x64-unicode/nsArray.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 16384
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/AdvSplash.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/AdvSplash.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 8192
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/Banner.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/Banner.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 6144
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/BgImage.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/BgImage.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 11264
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/Dialer.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/Dialer.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 5632
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/InstallOptions.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/InstallOptions.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 19456
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/LangDLL.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/LangDLL.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 7680
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/Math.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/Math.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 31744
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/nsArray.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/nsArray.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 12288
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/nsDialogs.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/nsDialogs.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 11776
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/nsExec.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/nsExec.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 9728
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/NSISdl.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/NSISdl.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 103424
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/Splash.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/Splash.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 7680
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/StartMenu.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/StartMenu.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 10240
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/System.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/System.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 25088
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/TypeLib.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/TypeLib.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 5632
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/UserInfo.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/UserInfo.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 6656
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/VPatch.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-ansi/VPatch.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 11264
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/AdvSplash.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/AdvSplash.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 8192
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/Banner.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/Banner.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 6656
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/BgImage.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/BgImage.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 11264
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/Dialer.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/Dialer.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 5632
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/InstallOptions.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/InstallOptions.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 22016
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/LangDLL.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/LangDLL.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 7680
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/Math.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/Math.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 32256
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/nsArray.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/nsArray.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 12800
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/nsDialogs.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/nsDialogs.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 11776
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/nsExec.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/nsExec.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 9728
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/NSISdl.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/NSISdl.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 103424
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/Splash.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/Splash.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 7680
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/StartMenu.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/StartMenu.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 10752
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/System.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/System.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 25088
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/TypeLib.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/TypeLib.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 5632
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/UserInfo.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/UserInfo.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 6656
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/VPatch.dll",
+      "file_path": "tests/nsis3/share/nsis/Plugins/x86-unicode/VPatch.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 11776
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/default.exe",
+      "file_path": "tests/nsis3/share/nsis/Contrib/UIs/default.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 16384
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern.exe",
+      "file_path": "tests/nsis3/share/nsis/Contrib/UIs/modern.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 16384
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmp.exe",
+      "file_path": "tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmp.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 14336
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmpr.exe",
+      "file_path": "tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmpr.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 14336
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern_nodesc.exe",
+      "file_path": "tests/nsis3/share/nsis/Contrib/UIs/modern_nodesc.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 13824
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern_smalldesc.exe",
+      "file_path": "tests/nsis3/share/nsis/Contrib/UIs/modern_smalldesc.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 13824
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/sdbarker_tiny.exe",
+      "file_path": "tests/nsis3/share/nsis/Contrib/UIs/sdbarker_tiny.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 16384
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: tests/nsis3/share/doc/nsis/Examples/System/Resource.dll",
+      "file_path": "tests/nsis3/share/doc/nsis/Examples/System/Resource.dll",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".dll",
+        "size_bytes": 15360
+      }
+    },
+    {
+      "code": "BINARY_FILE_DETECTED",
+      "severity": "FAIL",
+      "message": "Binary file detected: devices/ms/Files/wlan_test.exe",
+      "file_path": "devices/ms/Files/wlan_test.exe",
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "extension": ".exe",
+        "size_bytes": 8704
+      }
+    },
+    {
+      "code": "LARGE_FILE_DETECTED",
+      "severity": "PASS",
+      "message": "No large files detected (>= 10485760 bytes)",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_PROJECT_NAME_MISSING",
+      "severity": "PASS",
+      "message": "Project name detected in README",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_COPYRIGHT_MISSING",
+      "severity": "WARN",
+      "message": "No clear copyright one-liner detected in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_STATUS_MISSING",
+      "severity": "PASS",
+      "message": "Project status/lifecycle detected",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_TAGS_MISSING",
+      "severity": "WARN",
+      "message": "No tags/keywords detected in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_VERSION_MISSING",
+      "severity": "WARN",
+      "message": "No clear version indication in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_LICENSE_ONELINER_MISSING",
+      "severity": "WARN",
+      "message": "Licence one-liner/link not detected in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BADGES_MISSING",
+      "severity": "PASS",
+      "message": "Found 3 badge(s)",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {
+        "badge_count": 3
+      }
+    },
+    {
+      "code": "README_BADGE_METADATA_MISSING",
+      "severity": "PASS",
+      "message": "Badge detected: Project metadata and release status",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BADGE_DOWNLOADS_MISSING",
+      "severity": "WARN",
+      "message": "Badge not detected: Package downloads and versions",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BADGE_COMMUNITY_MISSING",
+      "severity": "WARN",
+      "message": "Badge not detected: Community engagement",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BADGE_CI_MISSING",
+      "severity": "PASS",
+      "message": "Badge detected: CI/CD workflows",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BADGE_QUALITY_MISSING",
+      "severity": "PASS",
+      "message": "Badge detected: Code quality",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BADGE_COVERAGE_MISSING",
+      "severity": "WARN",
+      "message": "Badge not detected: Test coverage",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BADGE_SECURITY_MISSING",
+      "severity": "PASS",
+      "message": "Badge detected: Security vulnerabilities",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BADGE_DOCS_MISSING",
+      "severity": "WARN",
+      "message": "Badge not detected: Documentation",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BADGE_SUPPORT_MISSING",
+      "severity": "WARN",
+      "message": "Badge not detected: Community support",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_DESCRIPTION_MISSING",
+      "severity": "PASS",
+      "message": "Description/overview detected",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_FEATURES_MISSING",
+      "severity": "WARN",
+      "message": "No features section in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_SCOPE_MISSING",
+      "severity": "PASS",
+      "message": "Scope/use-case signals detected",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_COMPATIBILITY_MISSING",
+      "severity": "WARN",
+      "message": "No compatibility section in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_STRUCTURE_MISSING",
+      "severity": "WARN",
+      "message": "No structure section in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_REQUIREMENTS_MISSING",
+      "severity": "WARN",
+      "message": "No requirements section in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_INSTALLATION_MISSING",
+      "severity": "PASS",
+      "message": "Installation signals detected",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_USAGE_MISSING",
+      "severity": "WARN",
+      "message": "Usage/examples not clearly present in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_DOCUMENTATION_MISSING",
+      "severity": "PASS",
+      "message": "Documentation signals detected",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_VERSION_CONTROL_MISSING",
+      "severity": "PASS",
+      "message": "Branch/tag wording detected",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_TROUBLESHOOTING_MISSING",
+      "severity": "WARN",
+      "message": "No troubleshooting/FAQ in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_SUPPORT_INFO_MISSING",
+      "severity": "WARN",
+      "message": "No support info in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_PRIVACY_MISSING",
+      "severity": "WARN",
+      "message": "No privacy policy in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_ROADMAP_MISSING",
+      "severity": "WARN",
+      "message": "No roadmap in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_AUTHORS_MISSING",
+      "severity": "WARN",
+      "message": "No authors mention in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_CONTRIBUTING_MISSING",
+      "severity": "WARN",
+      "message": "No contributing guidance in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_FUNDING_MISSING",
+      "severity": "WARN",
+      "message": "No funding info in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_ACKNOWLEDGEMENTS_MISSING",
+      "severity": "WARN",
+      "message": "No acknowledgements in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_DEPENDENCIES_MISSING",
+      "severity": "WARN",
+      "message": "No dependencies section in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_TOOLS_MISSING",
+      "severity": "PASS",
+      "message": "Tools indicators detected",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_LICENSE_PARAGRAPH_MISSING",
+      "severity": "WARN",
+      "message": "No licence summary in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_COPYRIGHT_DETAILS_MISSING",
+      "severity": "WARN",
+      "message": "No COPYRIGHT reference in README",
+      "file_path": "README",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "README_BROKEN_LINKS",
+      "severity": "PASS",
+      "message": "All README local links are valid",
+      "file_path": null,
+      "line_number": null,
+      "priority": 2,
+      "details": {}
+    },
+    {
+      "code": "LICENSE_FILE_TOO_SHORT",
+      "severity": "PASS",
+      "message": "LICENSE file has adequate length (1107 characters)",
+      "file_path": null,
+      "line_number": null,
+      "priority": 2,
+      "details": {
+        "char_count": 1107
+      }
+    },
+    {
+      "code": "LICENSE_TYPE_UNKNOWN",
+      "severity": "WARN",
+      "message": "No standard license type detected in LICENSE file",
+      "file_path": "LICENSE",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "ARTEFACT_COPYRIGHT_MISSING",
+      "severity": "SKIP",
+      "message": "COPYRIGHT file not found",
+      "file_path": null,
+      "line_number": null,
+      "priority": 2,
+      "details": {}
+    },
+    {
+      "code": "ARTEFACT_AUTHORS_MISSING",
+      "severity": "SKIP",
+      "message": "AUTHORS file not found",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "ARTEFACT_NOTICE_MISSING",
+      "severity": "SKIP",
+      "message": "NOTICE file not found",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CHANGELOG_PROJECT_NAME_MISSING",
+      "severity": "PASS",
+      "message": "Project name detected in CHANGELOG",
+      "file_path": "Changes.md",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CHANGELOG_NOT_CHRONOLOGICAL",
+      "severity": "PASS",
+      "message": "Version entries detected in CHANGELOG",
+      "file_path": "Changes.md",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CHANGELOG_VERSION_DATE_MISSING",
+      "severity": "WARN",
+      "message": "No clear version/date pattern in CHANGELOG",
+      "file_path": "Changes.md",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CHANGELOG_ADDED_MISSING",
+      "severity": "WARN",
+      "message": "No Added section in CHANGELOG",
+      "file_path": "Changes.md",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CHANGELOG_CHANGED_MISSING",
+      "severity": "WARN",
+      "message": "No Changed section in CHANGELOG",
+      "file_path": "Changes.md",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CHANGELOG_DEPRECATED_MISSING",
+      "severity": "WARN",
+      "message": "No Deprecated section in CHANGELOG",
+      "file_path": "Changes.md",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CHANGELOG_REMOVED_MISSING",
+      "severity": "WARN",
+      "message": "No Removed section in CHANGELOG",
+      "file_path": "Changes.md",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CHANGELOG_FIXED_MISSING",
+      "severity": "WARN",
+      "message": "No Fixed section in CHANGELOG",
+      "file_path": "Changes.md",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CHANGELOG_SECURITY_MISSING",
+      "severity": "WARN",
+      "message": "No Security section in CHANGELOG",
+      "file_path": "Changes.md",
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "CONTRIBUTING_FALLBACK_MISSING",
+      "severity": "FAIL",
+      "message": "Not in CONTRIBUTING file or README",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
+      "code": "AUTHORS_FALLBACK_MISSING",
+      "severity": "WARN",
+      "message": "Not in AUTHORS file or README",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    }
+  ],
+  "summary": {
+    "total": 119,
+    "pass": 21,
+    "info": 0,
+    "warn": 38,
+    "fail": 57,
+    "skip": 3
+  }
+}
