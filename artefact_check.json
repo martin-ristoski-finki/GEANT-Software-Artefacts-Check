@@ -473,12 +473,59 @@
     },
     {
       "code": "LICENSE_TYPE_UNKNOWN",
-      "severity": "WARN",
-      "message": "ScanCode did not detect any licenses in the repository",
-      "file_path": "LICENSE",
+      "severity": "PASS",
+      "message": "ScanCode detected licenses: APACHE-2.0, BSD-3-CLAUSE, MIT, POSTGRESQL, PROPRIETARY-LICENSE",
+      "file_path": null,
       "line_number": null,
       "priority": 3,
-      "details": {}
+      "details": {
+        "licenses": [
+          "PROPRIETARY-LICENSE",
+          "MIT",
+          "POSTGRESQL",
+          "BSD-3-CLAUSE",
+          "APACHE-2.0"
+        ],
+        "main_license": "APACHE-2.0",
+        "license_distribution": {
+          "APACHE-2.0": 5,
+          "PROPRIETARY-LICENSE": 2,
+          "BSD-3-CLAUSE": 1,
+          "POSTGRESQL": 1,
+          "MIT": 1
+        }
+      }
+    },
+    {
+      "code": "LICENSE_MISMATCH_DETECTED",
+      "severity": "PASS",
+      "message": "LICENSE file correctly declares APACHE-2.0",
+      "file_path": null,
+      "line_number": null,
+      "priority": 1,
+      "details": {
+        "declared": [
+          "APACHE-2.0"
+        ],
+        "detected": "APACHE-2.0"
+      }
+    },
+    {
+      "code": "LICENSE_UNDECLARED_FOUND",
+      "severity": "WARN",
+      "message": "Licenses found in code but not declared in LICENSE: BSD-3-CLAUSE, MIT, POSTGRESQL, PROPRIETARY-LICENSE",
+      "file_path": "LICENSE",
+      "line_number": null,
+      "priority": 2,
+      "details": {
+        "undeclared_licenses": [
+          "MIT",
+          "BSD-3-CLAUSE",
+          "POSTGRESQL",
+          "PROPRIETARY-LICENSE"
+        ],
+        "hint": "These may be from third-party dependencies"
+      }
     },
     {
       "code": "COPYRIGHT_STATEMENT_MISSING",
@@ -574,8 +621,8 @@
     }
   ],
   "summary": {
-    "total": 59,
-    "pass": 19,
+    "total": 61,
+    "pass": 21,
     "info": 0,
     "warn": 35,
     "fail": 2,

@@ -373,18 +373,21 @@ def run_scancode_license_scan(repo_root: Path) -> Optional[dict]:
             # Run scancode with license detection
             # --license: detect licenses
             # --license-text: include license text
-            # --json: output as JSON
-            # --quiet: suppress progress
+            # --json-pp: output as pretty-printed JSON (easier to debug)
+            # --quiet: suppress progress (removed to see what's happening)
+            # --timeout: set timeout per file
             cmd = [
                 "scancode",
                 "--license",
                 "--license-text",
-                "--json", str(output_file),
-                "--quiet",
+                "--json-pp", str(output_file),
+                "--timeout", "30",
+                "--max-depth", "10",
                 str(repo_root)
             ]
 
-            print(f"Running ScanCode license detection (this may take a while)...")
+            print(f"Running ScanCode license detection...")
+            print(f"Command: {' '.join(cmd)}")
             result = subprocess.run(
                 cmd,
                 capture_output=True,
@@ -393,25 +396,51 @@ def run_scancode_license_scan(repo_root: Path) -> Optional[dict]:
             )
 
             if result.returncode != 0:
-                print(f"ScanCode failed: {result.stderr}")
+                print(f"ScanCode failed with return code {result.returncode}")
+                print(f"STDOUT: {result.stdout}")
+                print(f"STDERR: {result.stderr}")
                 return None
 
             # Read and parse the JSON output
+            if not output_file.exists():
+                print(f"Error: Output file not created at {output_file}")
+                return None
+
+            print(f"Reading ScanCode output from {output_file}")
             with output_file.open('r', encoding='utf-8') as f:
                 scan_data = json.load(f)
+
+            # Debug: print some info about what we got
+            if scan_data:
+                print(f"ScanCode output keys: {list(scan_data.keys())}")
+                if 'files' in scan_data:
+                    print(f"Number of files in results: {len(scan_data['files'])}")
+                    # Show first file with license for debugging
+                    for file_info in scan_data['files'][:10]:
+                        if file_info.get('licenses'):
+                            print(f"Sample: {file_info.get('path')} -> {file_info.get('licenses')}")
+                            break
 
             return scan_data
 
         finally:
             # Clean up temp file
             if output_file.exists():
-                output_file.unlink()
+                try:
+                    output_file.unlink()
+                except:
+                    pass  # Ignore cleanup errors
 
     except subprocess.TimeoutExpired:
         print("ScanCode scan timed out after 10 minutes")
         return None
+    except json.JSONDecodeError as e:
+        print(f"Error parsing ScanCode JSON output: {e}")
+        return None
     except Exception as e:
         print(f"Error running ScanCode: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 
@@ -426,38 +455,71 @@ def extract_licenses_from_scancode(scan_data: dict) -> dict:
     license_count = {}
     license_files = {}
 
-    if not scan_data or 'files' not in scan_data:
+    if not scan_data:
         return {
             'detected_licenses': set(),
             'license_files': {},
-            'main_license': None
+            'main_license': None,
+            'license_count': {}
         }
 
-    for file_info in scan_data.get('files', []):
-        if file_info.get('type') != 'file':
+    # ScanCode output structure can vary, check both 'files' and 'headers'
+    files_data = scan_data.get('files', [])
+
+    if not files_data:
+        print(f"Warning: No 'files' key in ScanCode output. Keys found: {list(scan_data.keys())}")
+        return {
+            'detected_licenses': set(),
+            'license_files': {},
+            'main_license': None,
+            'license_count': {}
+        }
+
+    print(f"Processing {len(files_data)} files from ScanCode results...")
+
+    for file_info in files_data:
+        # Skip directories
+        if file_info.get('type') == 'directory':
             continue
 
         licenses = file_info.get('licenses', [])
-        if not licenses:
+        license_detections = file_info.get('license_detections', [])
+
+        # Try both 'licenses' and 'license_detections' fields
+        all_licenses = licenses if licenses else license_detections
+
+        if not all_licenses:
             continue
 
         file_path = file_info.get('path', '')
 
-        for lic in licenses:
-            spdx_key = lic.get('spdx_license_key') or lic.get('key')
+        for lic in all_licenses:
+            # Try multiple ways to get the license identifier
+            spdx_key = (
+                    lic.get('spdx_license_key') or
+                    lic.get('key') or
+                    lic.get('license_expression') or
+                    lic.get('matched_rule', {}).get('license_expression') or
+                    lic.get('short_name')
+            )
+
             if spdx_key:
                 # Normalize license name
-                spdx_key = spdx_key.upper()
+                spdx_key = normalize_license_name(spdx_key)
                 license_count[spdx_key] = license_count.get(spdx_key, 0) + 1
 
                 if file_path not in license_files:
                     license_files[file_path] = []
-                license_files[file_path].append(spdx_key)
+                if spdx_key not in license_files[file_path]:
+                    license_files[file_path].append(spdx_key)
 
     # Determine main license (most frequently occurring)
     main_license = None
     if license_count:
         main_license = max(license_count.items(), key=lambda x: x[1])[0]
+        print(f"Found {len(license_count)} unique licenses, main license: {main_license}")
+    else:
+        print("Warning: No licenses extracted from ScanCode results")
 
     return {
         'detected_licenses': set(license_count.keys()),
@@ -469,7 +531,11 @@ def extract_licenses_from_scancode(scan_data: dict) -> dict:
 
 def normalize_license_name(name: str) -> str:
     """Normalize license name for comparison."""
+    if not name:
+        return ""
+
     name = name.upper().strip()
+
     # Map common variations to standard names
     mappings = {
         'MIT': 'MIT',
@@ -478,9 +544,14 @@ def normalize_license_name(name: str) -> str:
         'APACHE-2.0': 'APACHE-2.0',
         'APACHE 2.0': 'APACHE-2.0',
         'APACHE LICENSE 2.0': 'APACHE-2.0',
+        'APACHE-2.0-ONLY': 'APACHE-2.0',
         'GPL': 'GPL-3.0',
         'GPL-3.0': 'GPL-3.0',
+        'GPL-3.0-ONLY': 'GPL-3.0',
+        'GPL-3.0-OR-LATER': 'GPL-3.0+',
         'GPL-2.0': 'GPL-2.0',
+        'GPL-2.0-ONLY': 'GPL-2.0',
+        'GPL-2.0-OR-LATER': 'GPL-2.0+',
         'GPLV3': 'GPL-3.0',
         'GPLV2': 'GPL-2.0',
         'BSD': 'BSD-3-CLAUSE',
@@ -488,15 +559,24 @@ def normalize_license_name(name: str) -> str:
         'BSD-2-CLAUSE': 'BSD-2-CLAUSE',
         'EUPL': 'EUPL-1.2',
         'EUPL-1.2': 'EUPL-1.2',
+        'EUPL-1.1': 'EUPL-1.1',
         'LGPL': 'LGPL-3.0',
         'LGPL-3.0': 'LGPL-3.0',
         'LGPL-2.1': 'LGPL-2.1',
+        'LGPL-3.0-ONLY': 'LGPL-3.0',
+        'LGPL-2.1-ONLY': 'LGPL-2.1',
     }
 
+    # Direct match
+    if name in mappings:
+        return mappings[name]
+
+    # Partial match
     for key, value in mappings.items():
-        if key in name:
+        if key in name or name in key:
             return value
 
+    # Return as-is if no mapping found
     return name
 
 
