@@ -107,6 +107,11 @@ class ProblemCode(Enum):
     # LICENSE checks
     LICENSE_FILE_TOO_SHORT = "LICENSE_FILE_TOO_SHORT"
     LICENSE_TYPE_UNKNOWN = "LICENSE_TYPE_UNKNOWN"
+    LICENSE_SCANCODE_NOT_AVAILABLE = "LICENSE_SCANCODE_NOT_AVAILABLE"
+    LICENSE_SCANCODE_FAILED = "LICENSE_SCANCODE_FAILED"
+    LICENSE_MISMATCH_DETECTED = "LICENSE_MISMATCH_DETECTED"
+    LICENSE_UNDECLARED_FOUND = "LICENSE_UNDECLARED_FOUND"
+    LICENSE_DECLARED_NOT_FOUND = "LICENSE_DECLARED_NOT_FOUND"
 
     # COPYRIGHT checks
     COPYRIGHT_STATEMENT_MISSING = "COPYRIGHT_STATEMENT_MISSING"
@@ -157,6 +162,8 @@ DEFAULT_PRIORITIES = {
     ProblemCode.COPYRIGHT_GEANT_MISSING: 3,
     ProblemCode.COPYRIGHT_EU_LOGO_MISSING: 3,
     ProblemCode.LICENSE_FILE_TOO_SHORT: 2,
+    ProblemCode.LICENSE_MISMATCH_DETECTED: 1,
+    ProblemCode.LICENSE_UNDECLARED_FOUND: 2,
     ProblemCode.README_BROKEN_LINKS: 2,
     ProblemCode.AUTHORS_FUNDING_MISSING: 3,
 }
@@ -334,6 +341,163 @@ def normalize(s: str) -> str:
 def has_any(text_lc: str, patterns: list[str]) -> bool:
     """Check if any regex pattern matches text."""
     return any(re.search(p, text_lc, flags=re.IGNORECASE) for p in patterns)
+
+
+def check_scancode_available() -> bool:
+    """Check if scancode-toolkit is available."""
+    try:
+        result = subprocess.run(
+            ["scancode", "--version"],
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        return result.returncode == 0
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return False
+
+
+def run_scancode_license_scan(repo_root: Path) -> Optional[dict]:
+    """
+    Run scancode to detect licenses in the repository.
+    Returns a dict with license information or None if scan fails.
+    """
+    try:
+        import tempfile
+
+        # Create a temporary file for JSON output
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp:
+            output_file = Path(tmp.name)
+
+        try:
+            # Run scancode with license detection
+            # --license: detect licenses
+            # --license-text: include license text
+            # --json: output as JSON
+            # --quiet: suppress progress
+            cmd = [
+                "scancode",
+                "--license",
+                "--license-text",
+                "--json", str(output_file),
+                "--quiet",
+                str(repo_root)
+            ]
+
+            print(f"Running ScanCode license detection (this may take a while)...")
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=600  # 10 minute timeout
+            )
+
+            if result.returncode != 0:
+                print(f"ScanCode failed: {result.stderr}")
+                return None
+
+            # Read and parse the JSON output
+            with output_file.open('r', encoding='utf-8') as f:
+                scan_data = json.load(f)
+
+            return scan_data
+
+        finally:
+            # Clean up temp file
+            if output_file.exists():
+                output_file.unlink()
+
+    except subprocess.TimeoutExpired:
+        print("ScanCode scan timed out after 10 minutes")
+        return None
+    except Exception as e:
+        print(f"Error running ScanCode: {e}")
+        return None
+
+
+def extract_licenses_from_scancode(scan_data: dict) -> dict:
+    """
+    Extract license information from ScanCode output.
+    Returns dict with:
+    - detected_licenses: set of SPDX license identifiers found
+    - license_files: dict mapping file paths to licenses found in them
+    - main_license: most common license (likely the project's main license)
+    """
+    license_count = {}
+    license_files = {}
+
+    if not scan_data or 'files' not in scan_data:
+        return {
+            'detected_licenses': set(),
+            'license_files': {},
+            'main_license': None
+        }
+
+    for file_info in scan_data.get('files', []):
+        if file_info.get('type') != 'file':
+            continue
+
+        licenses = file_info.get('licenses', [])
+        if not licenses:
+            continue
+
+        file_path = file_info.get('path', '')
+
+        for lic in licenses:
+            spdx_key = lic.get('spdx_license_key') or lic.get('key')
+            if spdx_key:
+                # Normalize license name
+                spdx_key = spdx_key.upper()
+                license_count[spdx_key] = license_count.get(spdx_key, 0) + 1
+
+                if file_path not in license_files:
+                    license_files[file_path] = []
+                license_files[file_path].append(spdx_key)
+
+    # Determine main license (most frequently occurring)
+    main_license = None
+    if license_count:
+        main_license = max(license_count.items(), key=lambda x: x[1])[0]
+
+    return {
+        'detected_licenses': set(license_count.keys()),
+        'license_files': license_files,
+        'main_license': main_license,
+        'license_count': license_count
+    }
+
+
+def normalize_license_name(name: str) -> str:
+    """Normalize license name for comparison."""
+    name = name.upper().strip()
+    # Map common variations to standard names
+    mappings = {
+        'MIT': 'MIT',
+        'MIT LICENSE': 'MIT',
+        'APACHE': 'APACHE-2.0',
+        'APACHE-2.0': 'APACHE-2.0',
+        'APACHE 2.0': 'APACHE-2.0',
+        'APACHE LICENSE 2.0': 'APACHE-2.0',
+        'GPL': 'GPL-3.0',
+        'GPL-3.0': 'GPL-3.0',
+        'GPL-2.0': 'GPL-2.0',
+        'GPLV3': 'GPL-3.0',
+        'GPLV2': 'GPL-2.0',
+        'BSD': 'BSD-3-CLAUSE',
+        'BSD-3-CLAUSE': 'BSD-3-CLAUSE',
+        'BSD-2-CLAUSE': 'BSD-2-CLAUSE',
+        'EUPL': 'EUPL-1.2',
+        'EUPL-1.2': 'EUPL-1.2',
+        'LGPL': 'LGPL-3.0',
+        'LGPL-3.0': 'LGPL-3.0',
+        'LGPL-2.1': 'LGPL-2.1',
+    }
+
+    for key, value in mappings.items():
+        if key in name:
+            return value
+
+    return name
 
 
 # ============================================================================
@@ -863,8 +1027,8 @@ def readme_checks(repo_root: Path, repo_name: str, logger: ProblemLogger) -> Non
 # LICENSE CHECKS
 # ============================================================================
 
-def license_checks(repo_root: Path, logger: ProblemLogger) -> None:
-    """LICENSE file content checks."""
+def license_checks(repo_root: Path, logger: ProblemLogger, scancode_data: Optional[dict] = None) -> None:
+    """LICENSE file content checks with ScanCode integration."""
     found = find_any(repo_root, ARTEFACTS["LICENSE"])
 
     if not found:
@@ -895,33 +1059,113 @@ def license_checks(repo_root: Path, logger: ProblemLogger) -> None:
             char_count=len(text)
         )
 
-    # License type detection
-    licenses_detected = []
+    # License type detection - manual patterns (fallback)
+    licenses_detected_manual = []
     license_patterns = {
         "MIT": r"\bMIT License\b",
-        "Apache": r"\bApache License",
-        "GPL": r"\bGNU General Public License",
-        "BSD": r"\bBSD License",
-        "EUPL": r"\bEuropean Union Public Licence",
+        "Apache-2.0": r"\bApache License",
+        "GPL-3.0": r"\bGNU General Public License",
+        "BSD-3-Clause": r"\bBSD License",
+        "EUPL-1.2": r"\bEuropean Union Public Licence",
     }
 
     for lic_name, pattern in license_patterns.items():
         if re.search(pattern, text, flags=re.IGNORECASE):
-            licenses_detected.append(lic_name)
+            licenses_detected_manual.append(normalize_license_name(lic_name))
 
-    if licenses_detected:
-        logger.log_pass(
-            ProblemCode.LICENSE_TYPE_UNKNOWN,
-            f"License type detected: {', '.join(licenses_detected)}",
-            licenses=licenses_detected
-        )
+    # If ScanCode data is available, use it for more accurate detection
+    if scancode_data:
+        license_info = extract_licenses_from_scancode(scancode_data)
+        detected_licenses = license_info['detected_licenses']
+        main_license = license_info['main_license']
+        license_count = license_info.get('license_count', {})
+
+        # Check if LICENSE file declares the main license found by ScanCode
+        declared_licenses = set(normalize_license_name(lic) for lic in licenses_detected_manual)
+
+        if detected_licenses:
+            logger.log_pass(
+                ProblemCode.LICENSE_TYPE_UNKNOWN,
+                f"ScanCode detected licenses: {', '.join(sorted(detected_licenses))}",
+                licenses=list(detected_licenses),
+                main_license=main_license,
+                license_distribution=license_count
+            )
+
+            # Check for mismatches between declared and detected licenses
+            if main_license:
+                if main_license not in declared_licenses and declared_licenses:
+                    logger.log_problem(
+                        ProblemCode.LICENSE_MISMATCH_DETECTED,
+                        f"LICENSE file declares {', '.join(declared_licenses)} but ScanCode detected {main_license} as main license",
+                        Severity.WARN,
+                        file_path=found[0],
+                        declared=list(declared_licenses),
+                        detected_main=main_license,
+                        all_detected=list(detected_licenses)
+                    )
+                elif main_license in declared_licenses:
+                    logger.log_pass(
+                        ProblemCode.LICENSE_MISMATCH_DETECTED,
+                        f"LICENSE file correctly declares {main_license}",
+                        declared=list(declared_licenses),
+                        detected=main_license
+                    )
+
+            # Check for licenses found in code but not declared
+            undeclared = detected_licenses - declared_licenses
+            if undeclared:
+                # Filter out very common permissive licenses that might be in dependencies
+                significant_undeclared = {
+                    lic for lic in undeclared
+                    if not any(x in lic for x in ['PUBLIC-DOMAIN', 'CC0', 'UNLICENSE'])
+                }
+
+                if significant_undeclared:
+                    logger.log_problem(
+                        ProblemCode.LICENSE_UNDECLARED_FOUND,
+                        f"Licenses found in code but not declared in LICENSE: {', '.join(sorted(significant_undeclared))}",
+                        Severity.WARN,
+                        file_path=found[0],
+                        undeclared_licenses=list(significant_undeclared),
+                        hint="These may be from third-party dependencies"
+                    )
+
+            # Check for licenses declared but not found in scan
+            if declared_licenses:
+                not_found = declared_licenses - detected_licenses
+                if not_found:
+                    logger.log_problem(
+                        ProblemCode.LICENSE_DECLARED_NOT_FOUND,
+                        f"LICENSE declares {', '.join(not_found)} but ScanCode did not detect it in the codebase",
+                        Severity.INFO,
+                        file_path=found[0],
+                        declared_but_not_found=list(not_found)
+                    )
+        else:
+            logger.log_problem(
+                ProblemCode.LICENSE_TYPE_UNKNOWN,
+                "ScanCode did not detect any licenses in the repository",
+                Severity.WARN,
+                file_path=found[0]
+            )
+
     else:
-        logger.log_problem(
-            ProblemCode.LICENSE_TYPE_UNKNOWN,
-            "No standard license type detected in LICENSE file",
-            Severity.WARN,
-            file_path=found[0]
-        )
+        # Fallback to manual detection if ScanCode not available
+        if licenses_detected_manual:
+            logger.log_pass(
+                ProblemCode.LICENSE_TYPE_UNKNOWN,
+                f"License type detected (manual): {', '.join(licenses_detected_manual)}",
+                licenses=licenses_detected_manual,
+                method="manual_pattern_matching"
+            )
+        else:
+            logger.log_problem(
+                ProblemCode.LICENSE_TYPE_UNKNOWN,
+                "No standard license type detected in LICENSE file",
+                Severity.WARN,
+                file_path=found[0]
+            )
 
 
 # ============================================================================
@@ -1410,6 +1654,30 @@ def main() -> int:
         # Initialize problem logger
         logger = ProblemLogger(git_url)
 
+        # ===== SCANCODE LICENSE DETECTION =====
+        scancode_data = None
+        if check_scancode_available():
+            print("ScanCode is available, running license detection...")
+            scancode_data = run_scancode_license_scan(repo_dir)
+            if scancode_data:
+                print("ScanCode scan completed successfully")
+            else:
+                logger.log_problem(
+                    ProblemCode.LICENSE_SCANCODE_FAILED,
+                    "ScanCode scan failed or timed out",
+                    Severity.INFO,
+                    hint="License detection will fall back to pattern matching"
+                )
+        else:
+            logger.log_problem(
+                ProblemCode.LICENSE_SCANCODE_NOT_AVAILABLE,
+                "ScanCode toolkit not available - install with: pip install scancode-toolkit",
+                Severity.INFO,
+                hint="License detection will use basic pattern matching only"
+            )
+            print("ScanCode not available - using basic pattern matching for license detection")
+            print("Install ScanCode for more accurate license detection: pip install scancode-toolkit")
+
         # ===== KEY ARTEFACTS PRESENCE =====
         print("Checking key artifacts...")
         for artefact, candidates in ARTEFACTS.items():
@@ -1439,7 +1707,7 @@ def main() -> int:
         readme_checks(repo_dir, repo_name, logger)
 
         print("Analyzing LICENSE content...")
-        license_checks(repo_dir, logger)
+        license_checks(repo_dir, logger, scancode_data)
 
         print("Analyzing COPYRIGHT content...")
         copyright_checks(repo_dir, logger)

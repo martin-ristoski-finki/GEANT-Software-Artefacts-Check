@@ -1,120 +1,60 @@
 repo_url,code,severity,message,file_path,line_number,priority,details
-https://github.com/GEANT/CAT.git,ARTEFACT_README_MISSING,PASS,README file found: README.md,,,1,"{""files"": [""README.md""]}"
-https://github.com/GEANT/CAT.git,ARTEFACT_LICENSE_MISSING,PASS,LICENSE file found: LICENSE,,,1,"{""files"": [""LICENSE""]}"
-https://github.com/GEANT/CAT.git,ARTEFACT_NOTICE_MISSING,WARN,NOTICE file not found,,,3,
-https://github.com/GEANT/CAT.git,ARTEFACT_COPYRIGHT_MISSING,WARN,COPYRIGHT file not found,,,2,
-https://github.com/GEANT/CAT.git,ARTEFACT_AUTHORS_MISSING,WARN,AUTHORS file not found,,,3,
-https://github.com/GEANT/CAT.git,ARTEFACT_CHANGELOG_MISSING,PASS,"CHANGELOG file found: Changes.md, CHANGES.md",,,3,"{""files"": [""Changes.md"", ""CHANGES.md""]}"
-https://github.com/GEANT/CAT.git,ARTEFACT_CONTRIBUTING_MISSING,WARN,CONTRIBUTING file not found,,,3,
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: geteduroam-stable.apk,geteduroam-stable.apk,,1,"{""extension"": "".apk"", ""size_bytes"": 21}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: geteduroam_1_0_16.apk,geteduroam_1_0_16.apk,,1,"{""extension"": "".apk"", ""size_bytes"": 7095405}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: web/eduroamCAT-1-1-44.apk,web/eduroamCAT-1-1-44.apk,,1,"{""extension"": "".apk"", ""size_bytes"": 805165}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: web/eduroamCAT-beta.apk,web/eduroamCAT-beta.apk,,1,"{""extension"": "".apk"", ""size_bytes"": 21}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: web/eduroamCAT-stable.apk,web/eduroamCAT-stable.apk,,1,"{""extension"": "".apk"", ""size_bytes"": 21}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/bin/makensis.exe,tests/nsis3/bin/makensis.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 2560}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Bin/MakeLangId.exe,tests/nsis3/share/nsis/Bin/MakeLangId.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 25600}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Bin/makensisw.exe,tests/nsis3/share/nsis/Bin/makensisw.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 968704}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Bin/RegTool-x86.bin,tests/nsis3/share/nsis/Bin/RegTool-x86.bin,,1,"{""extension"": "".bin"", ""size_bytes"": 11776}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Bin/zip2exe.exe,tests/nsis3/share/nsis/Bin/zip2exe.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 39424}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Bin/zlib1.dll,tests/nsis3/share/nsis/Bin/zlib1.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 81964}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x64-ansi/nsArray.dll,tests/nsis3/share/nsis/Plugins/x64-ansi/nsArray.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 16384}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x64-unicode/nsArray.dll,tests/nsis3/share/nsis/Plugins/x64-unicode/nsArray.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 16384}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/AdvSplash.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/AdvSplash.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 8192}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/Banner.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/Banner.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 6144}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/BgImage.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/BgImage.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 11264}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/Dialer.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/Dialer.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 5632}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/InstallOptions.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/InstallOptions.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 19456}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/LangDLL.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/LangDLL.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 7680}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/Math.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/Math.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 31744}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/nsArray.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/nsArray.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 12288}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/nsDialogs.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/nsDialogs.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 11776}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/nsExec.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/nsExec.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 9728}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/NSISdl.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/NSISdl.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 103424}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/Splash.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/Splash.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 7680}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/StartMenu.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/StartMenu.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 10240}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/System.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/System.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 25088}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/TypeLib.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/TypeLib.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 5632}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/UserInfo.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/UserInfo.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 6656}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-ansi/VPatch.dll,tests/nsis3/share/nsis/Plugins/x86-ansi/VPatch.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 11264}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/AdvSplash.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/AdvSplash.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 8192}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/Banner.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/Banner.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 6656}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/BgImage.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/BgImage.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 11264}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/Dialer.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/Dialer.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 5632}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/InstallOptions.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/InstallOptions.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 22016}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/LangDLL.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/LangDLL.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 7680}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/Math.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/Math.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 32256}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/nsArray.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/nsArray.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 12800}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/nsDialogs.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/nsDialogs.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 11776}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/nsExec.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/nsExec.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 9728}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/NSISdl.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/NSISdl.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 103424}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/Splash.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/Splash.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 7680}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/StartMenu.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/StartMenu.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 10752}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/System.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/System.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 25088}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/TypeLib.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/TypeLib.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 5632}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/UserInfo.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/UserInfo.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 6656}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Plugins/x86-unicode/VPatch.dll,tests/nsis3/share/nsis/Plugins/x86-unicode/VPatch.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 11776}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/default.exe,tests/nsis3/share/nsis/Contrib/UIs/default.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 16384}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern.exe,tests/nsis3/share/nsis/Contrib/UIs/modern.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 16384}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmp.exe,tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmp.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 14336}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmpr.exe,tests/nsis3/share/nsis/Contrib/UIs/modern_headerbmpr.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 14336}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern_nodesc.exe,tests/nsis3/share/nsis/Contrib/UIs/modern_nodesc.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 13824}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/modern_smalldesc.exe,tests/nsis3/share/nsis/Contrib/UIs/modern_smalldesc.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 13824}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/nsis/Contrib/UIs/sdbarker_tiny.exe,tests/nsis3/share/nsis/Contrib/UIs/sdbarker_tiny.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 16384}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: tests/nsis3/share/doc/nsis/Examples/System/Resource.dll,tests/nsis3/share/doc/nsis/Examples/System/Resource.dll,,1,"{""extension"": "".dll"", ""size_bytes"": 15360}"
-https://github.com/GEANT/CAT.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: devices/ms/Files/wlan_test.exe,devices/ms/Files/wlan_test.exe,,1,"{""extension"": "".exe"", ""size_bytes"": 8704}"
-https://github.com/GEANT/CAT.git,LARGE_FILE_DETECTED,PASS,No large files detected (>= 10485760 bytes),,,3,
-https://github.com/GEANT/CAT.git,README_PROJECT_NAME_MISSING,PASS,Project name detected in README,,,3,
-https://github.com/GEANT/CAT.git,README_COPYRIGHT_MISSING,WARN,No clear copyright one-liner detected in README,README,,3,
-https://github.com/GEANT/CAT.git,README_STATUS_MISSING,PASS,Project status/lifecycle detected,,,3,
-https://github.com/GEANT/CAT.git,README_TAGS_MISSING,WARN,No tags/keywords detected in README,README,,3,
-https://github.com/GEANT/CAT.git,README_VERSION_MISSING,WARN,No clear version indication in README,README,,3,
-https://github.com/GEANT/CAT.git,README_LICENSE_ONELINER_MISSING,WARN,Licence one-liner/link not detected in README,README,,3,
-https://github.com/GEANT/CAT.git,README_BADGES_MISSING,PASS,Found 3 badge(s),,,3,"{""badge_count"": 3}"
-https://github.com/GEANT/CAT.git,README_BADGE_METADATA_MISSING,PASS,Badge detected: Project metadata and release status,,,3,
-https://github.com/GEANT/CAT.git,README_BADGE_DOWNLOADS_MISSING,WARN,Badge not detected: Package downloads and versions,README,,3,
-https://github.com/GEANT/CAT.git,README_BADGE_COMMUNITY_MISSING,WARN,Badge not detected: Community engagement,README,,3,
-https://github.com/GEANT/CAT.git,README_BADGE_CI_MISSING,PASS,Badge detected: CI/CD workflows,,,3,
-https://github.com/GEANT/CAT.git,README_BADGE_QUALITY_MISSING,PASS,Badge detected: Code quality,,,3,
-https://github.com/GEANT/CAT.git,README_BADGE_COVERAGE_MISSING,WARN,Badge not detected: Test coverage,README,,3,
-https://github.com/GEANT/CAT.git,README_BADGE_SECURITY_MISSING,PASS,Badge detected: Security vulnerabilities,,,3,
-https://github.com/GEANT/CAT.git,README_BADGE_DOCS_MISSING,WARN,Badge not detected: Documentation,README,,3,
-https://github.com/GEANT/CAT.git,README_BADGE_SUPPORT_MISSING,WARN,Badge not detected: Community support,README,,3,
-https://github.com/GEANT/CAT.git,README_DESCRIPTION_MISSING,PASS,Description/overview detected,,,3,
-https://github.com/GEANT/CAT.git,README_FEATURES_MISSING,WARN,No features section in README,README,,3,
-https://github.com/GEANT/CAT.git,README_SCOPE_MISSING,PASS,Scope/use-case signals detected,,,3,
-https://github.com/GEANT/CAT.git,README_COMPATIBILITY_MISSING,WARN,No compatibility section in README,README,,3,
-https://github.com/GEANT/CAT.git,README_STRUCTURE_MISSING,WARN,No structure section in README,README,,3,
-https://github.com/GEANT/CAT.git,README_REQUIREMENTS_MISSING,WARN,No requirements section in README,README,,3,
-https://github.com/GEANT/CAT.git,README_INSTALLATION_MISSING,PASS,Installation signals detected,,,3,
-https://github.com/GEANT/CAT.git,README_USAGE_MISSING,WARN,Usage/examples not clearly present in README,README,,3,
-https://github.com/GEANT/CAT.git,README_DOCUMENTATION_MISSING,PASS,Documentation signals detected,,,3,
-https://github.com/GEANT/CAT.git,README_VERSION_CONTROL_MISSING,PASS,Branch/tag wording detected,,,3,
-https://github.com/GEANT/CAT.git,README_TROUBLESHOOTING_MISSING,WARN,No troubleshooting/FAQ in README,README,,3,
-https://github.com/GEANT/CAT.git,README_SUPPORT_INFO_MISSING,WARN,No support info in README,README,,3,
-https://github.com/GEANT/CAT.git,README_PRIVACY_MISSING,WARN,No privacy policy in README,README,,3,
-https://github.com/GEANT/CAT.git,README_ROADMAP_MISSING,WARN,No roadmap in README,README,,3,
-https://github.com/GEANT/CAT.git,README_AUTHORS_MISSING,WARN,No authors mention in README,README,,3,
-https://github.com/GEANT/CAT.git,README_CONTRIBUTING_MISSING,WARN,No contributing guidance in README,README,,3,
-https://github.com/GEANT/CAT.git,README_FUNDING_MISSING,WARN,No funding info in README,README,,3,
-https://github.com/GEANT/CAT.git,README_ACKNOWLEDGEMENTS_MISSING,WARN,No acknowledgements in README,README,,3,
-https://github.com/GEANT/CAT.git,README_DEPENDENCIES_MISSING,WARN,No dependencies section in README,README,,3,
-https://github.com/GEANT/CAT.git,README_TOOLS_MISSING,PASS,Tools indicators detected,,,3,
-https://github.com/GEANT/CAT.git,README_LICENSE_PARAGRAPH_MISSING,WARN,No licence summary in README,README,,3,
-https://github.com/GEANT/CAT.git,README_COPYRIGHT_DETAILS_MISSING,WARN,No COPYRIGHT reference in README,README,,3,
-https://github.com/GEANT/CAT.git,README_BROKEN_LINKS,PASS,All README local links are valid,,,2,
-https://github.com/GEANT/CAT.git,LICENSE_FILE_TOO_SHORT,PASS,LICENSE file has adequate length (1107 characters),,,2,"{""char_count"": 1107}"
-https://github.com/GEANT/CAT.git,LICENSE_TYPE_UNKNOWN,WARN,No standard license type detected in LICENSE file,LICENSE,,3,
-https://github.com/GEANT/CAT.git,ARTEFACT_COPYRIGHT_MISSING,SKIP,COPYRIGHT file not found,,,2,
-https://github.com/GEANT/CAT.git,ARTEFACT_AUTHORS_MISSING,SKIP,AUTHORS file not found,,,3,
-https://github.com/GEANT/CAT.git,ARTEFACT_NOTICE_MISSING,SKIP,NOTICE file not found,,,3,
-https://github.com/GEANT/CAT.git,CHANGELOG_PROJECT_NAME_MISSING,PASS,Project name detected in CHANGELOG,Changes.md,,3,
-https://github.com/GEANT/CAT.git,CHANGELOG_NOT_CHRONOLOGICAL,PASS,Version entries detected in CHANGELOG,Changes.md,,3,
-https://github.com/GEANT/CAT.git,CHANGELOG_VERSION_DATE_MISSING,WARN,No clear version/date pattern in CHANGELOG,Changes.md,,3,
-https://github.com/GEANT/CAT.git,CHANGELOG_ADDED_MISSING,WARN,No Added section in CHANGELOG,Changes.md,,3,
-https://github.com/GEANT/CAT.git,CHANGELOG_CHANGED_MISSING,WARN,No Changed section in CHANGELOG,Changes.md,,3,
-https://github.com/GEANT/CAT.git,CHANGELOG_DEPRECATED_MISSING,WARN,No Deprecated section in CHANGELOG,Changes.md,,3,
-https://github.com/GEANT/CAT.git,CHANGELOG_REMOVED_MISSING,WARN,No Removed section in CHANGELOG,Changes.md,,3,
-https://github.com/GEANT/CAT.git,CHANGELOG_FIXED_MISSING,WARN,No Fixed section in CHANGELOG,Changes.md,,3,
-https://github.com/GEANT/CAT.git,CHANGELOG_SECURITY_MISSING,WARN,No Security section in CHANGELOG,Changes.md,,3,
-https://github.com/GEANT/CAT.git,CONTRIBUTING_FALLBACK_MISSING,FAIL,Not in CONTRIBUTING file or README,,,3,
-https://github.com/GEANT/CAT.git,AUTHORS_FALLBACK_MISSING,WARN,Not in AUTHORS file or README,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_README_MISSING,PASS,README file found: README.md,,,1,"{""files"": [""README.md""]}"
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_LICENSE_MISSING,PASS,LICENSE file found: LICENSE,,,1,"{""files"": [""LICENSE""]}"
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_NOTICE_MISSING,WARN,NOTICE file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_COPYRIGHT_MISSING,PASS,COPYRIGHT file found: COPYRIGHT,,,2,"{""files"": [""COPYRIGHT""]}"
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_AUTHORS_MISSING,WARN,AUTHORS file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_CHANGELOG_MISSING,WARN,CHANGELOG file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_CONTRIBUTING_MISSING,WARN,CONTRIBUTING file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: gradle/wrapper/gradle-wrapper.jar,gradle/wrapper/gradle-wrapper.jar,,1,"{""extension"": "".jar"", ""size_bytes"": 45633}"
+https://github.com/nmaas-platform/nmaas-platform.git,LARGE_FILE_DETECTED,PASS,No large files detected (>= 10485760 bytes),,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_PROJECT_NAME_MISSING,PASS,Project name detected in README,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_COPYRIGHT_MISSING,WARN,No clear copyright one-liner detected in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_STATUS_MISSING,PASS,Project status/lifecycle detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_TAGS_MISSING,WARN,No tags/keywords detected in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_VERSION_MISSING,WARN,No clear version indication in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_LICENSE_ONELINER_MISSING,WARN,Licence one-liner/link not detected in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGES_MISSING,PASS,Found 7 badge(s),,,3,"{""badge_count"": 7}"
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_METADATA_MISSING,WARN,Badge not detected: Project metadata and release status,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_DOWNLOADS_MISSING,WARN,Badge not detected: Package downloads and versions,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_COMMUNITY_MISSING,WARN,Badge not detected: Community engagement,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_CI_MISSING,WARN,Badge not detected: CI/CD workflows,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_QUALITY_MISSING,WARN,Badge not detected: Code quality,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_COVERAGE_MISSING,WARN,Badge not detected: Test coverage,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_SECURITY_MISSING,WARN,Badge not detected: Security vulnerabilities,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_DOCS_MISSING,PASS,Badge detected: Documentation,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_SUPPORT_MISSING,WARN,Badge not detected: Community support,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_DESCRIPTION_MISSING,PASS,Description/overview detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_FEATURES_MISSING,WARN,No features section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_SCOPE_MISSING,WARN,No clear scope section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_COMPATIBILITY_MISSING,PASS,Compatibility signals detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_STRUCTURE_MISSING,PASS,Structure signals detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_REQUIREMENTS_MISSING,WARN,No requirements section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_INSTALLATION_MISSING,WARN,No installation section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_USAGE_MISSING,WARN,Usage/examples not clearly present in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_DOCUMENTATION_MISSING,PASS,Documentation signals detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_VERSION_CONTROL_MISSING,PASS,Branch/tag wording detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_TROUBLESHOOTING_MISSING,WARN,No troubleshooting/FAQ in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_SUPPORT_INFO_MISSING,PASS,Support/contact wording detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_PRIVACY_MISSING,WARN,No privacy policy in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_ROADMAP_MISSING,WARN,No roadmap in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_AUTHORS_MISSING,WARN,No authors mention in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_CONTRIBUTING_MISSING,WARN,No contributing guidance in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_FUNDING_MISSING,PASS,Funding wording detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_ACKNOWLEDGEMENTS_MISSING,WARN,No acknowledgements in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_DEPENDENCIES_MISSING,WARN,No dependencies section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_TOOLS_MISSING,PASS,Tools indicators detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_LICENSE_PARAGRAPH_MISSING,WARN,No licence summary in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_COPYRIGHT_DETAILS_MISSING,WARN,No COPYRIGHT reference in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,README_BROKEN_LINKS,WARN,"Broken links detected in README: docs/images/nmaas-landing-page.png ""Landing page"", docs/images/nmaas-applications.png ""Marketplace view"", docs/images/nmaas-application-instances.png ""Application instances"", docs/images/nmaas-example-instance.png ""Application instance details"", docs/images/nmaas-prometheus-app-view.png ""Example application user interface""",README,,2,"{""broken_links"": [""docs/images/nmaas-landing-page.png \""Landing page\"""", ""docs/images/nmaas-applications.png \""Marketplace view\"""", ""docs/images/nmaas-application-instances.png \""Application instances\"""", ""docs/images/nmaas-example-instance.png \""Application instance details\"""", ""docs/images/nmaas-prometheus-app-view.png \""Example application user interface\"""", ""docs/images/nmaas-application-management.png \""Application management view\"""", ""docs/images/nmaas-about.png \""About page\""""]}"
+https://github.com/nmaas-platform/nmaas-platform.git,LICENSE_FILE_TOO_SHORT,PASS,LICENSE file has adequate length (11558 characters),,,2,"{""char_count"": 11558}"
+https://github.com/nmaas-platform/nmaas-platform.git,LICENSE_TYPE_UNKNOWN,WARN,ScanCode did not detect any licenses in the repository,LICENSE,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,COPYRIGHT_STATEMENT_MISSING,WARN,No clear copyright statement with year in COPYRIGHT file,COPYRIGHT,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,COPYRIGHT_GEANT_MISSING,PASS,GÉANT copyright mention detected,COPYRIGHT,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,COPYRIGHT_STATEMENTS_COUNT,PASS,Found 2 copyright statement(s),,,3,"{""count"": 2}"
+https://github.com/nmaas-platform/nmaas-platform.git,COPYRIGHT_EU_LOGO_MISSING,WARN,"No EU logo file detected (eu-logo.png, eu-flag.png, etc.)",,,3,"{""expected_locations"": [""eu-logo.png"", ""eu-flag.png"", ""EU-logo.jpg"", ""EU-flag.jpg"", ""eu_flag.svg""], ""note"": ""Required for EU-funded projects""}"
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_AUTHORS_MISSING,SKIP,AUTHORS file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_NOTICE_MISSING,SKIP,NOTICE file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_CHANGELOG_MISSING,SKIP,CHANGELOG file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,CONTRIBUTING_FALLBACK_MISSING,FAIL,Not in CONTRIBUTING file or README,,,3,
+https://github.com/nmaas-platform/nmaas-platform.git,AUTHORS_FALLBACK_MISSING,WARN,Not in AUTHORS file or README,,,3,
