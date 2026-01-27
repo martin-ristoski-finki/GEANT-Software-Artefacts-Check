@@ -137,6 +137,10 @@ class ProblemCode(Enum):
     NOTICE_ACKNOWLEDGEMENTS_MISSING = "NOTICE_ACKNOWLEDGEMENTS_MISSING"
     NOTICE_PRIOR_NOTICES_MISSING = "NOTICE_PRIOR_NOTICES_MISSING"
 
+    DEPENDENCY_PARSER_FAILED = "DEPENDENCY_PARSER_FAILED"
+    DEPENDENCY_DOC_EVIDENCE_FOUND = "DEPENDENCY_DOC_EVIDENCE_FOUND"
+    DEPENDENCY_DOC_NO_EVIDENCE = "DEPENDENCY_DOC_NO_EVIDENCE"
+
     # CHANGELOG checks
     CHANGELOG_PROJECT_NAME_MISSING = "CHANGELOG_PROJECT_NAME_MISSING"
     CHANGELOG_NOT_CHRONOLOGICAL = "CHANGELOG_NOT_CHRONOLOGICAL"
@@ -578,6 +582,121 @@ def normalize_license_name(name: str) -> str:
 
     # Return as-is if no mapping found
     return name
+
+def run_dependency_parser(repo_root: Path) -> list[dict]:
+    """
+    Run DependencyParser.py inside repo_root and return dependencies list (JSON).
+    DependencyParser must print JSON to stdout.
+    """
+    parser_path = Path(__file__).parent / "DependencyParser.py"
+    if not parser_path.exists():
+        raise FileNotFoundError(f"DependencyParser.py not found at: {parser_path}")
+
+    result = subprocess.run(
+        [sys.executable, str(parser_path)],
+        cwd=str(repo_root),
+        capture_output=True,
+        text=True
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(f"DependencyParser failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}")
+
+    data = json.loads(result.stdout)
+    if not isinstance(data, list):
+        raise ValueError("DependencyParser output is not a JSON list")
+    return data
+
+
+DEPENDENCY_EVIDENCE_EXTS = {
+    ".py", ".js", ".ts", ".tsx", ".jsx", ".java", ".go", ".rs", ".c", ".cpp", ".h", ".hpp", ".cs", ".php",
+    ".json", ".yaml", ".yml", ".toml", ".xml", ".ini", ".cfg",
+    ".md", ".rst", ".txt",
+}
+
+def normalize_dep_name(name: str) -> str:
+    name = (name or "").strip().lower()
+    name = re.sub(r"^[^\w]+|[^\w]+$", "", name)  # trim punctuation ends
+    name = re.sub(r"\s+", " ", name)
+    return name
+
+def find_dependency_evidence(repo_root: Path, dep_name: str, max_hits: int = 8) -> list[dict]:
+    """
+    Generic evidence: find dep_name occurrences across repo in text-like files.
+    Returns hits with file + line + snippet.
+    """
+    dep = normalize_dep_name(dep_name)
+    if not dep or len(dep) < 2:
+        return []
+
+    pattern = re.compile(rf"(?i)(?<![A-Za-z0-9_\-]){re.escape(dep)}(?![A-Za-z0-9_\-])")
+    hits: list[dict] = []
+
+    for f in iter_files(repo_root):
+        if f.suffix.lower() not in DEPENDENCY_EVIDENCE_EXTS:
+            continue
+
+        text = read_text_safe(f)
+        if dep not in text.lower():
+            continue
+
+        rel = str(f.relative_to(repo_root)).replace("\\", "/")
+        for i, line in enumerate(text.splitlines(), start=1):
+            if pattern.search(line):
+                hits.append({"file": rel, "line": i, "snippet": line.strip()[:200]})
+                if len(hits) >= max_hits:
+                    return hits
+
+    return hits
+
+def verify_doc_dependencies(repo_root: Path, logger: ProblemLogger, doc_deps: list[dict]) -> None:
+    names = []
+    for d in doc_deps:
+        n = (d.get("name") or "").strip()
+        if n:
+            names.append(n)
+
+    unique = sorted({normalize_dep_name(n) for n in names if normalize_dep_name(n)})
+
+    if not unique:
+        logger.log_problem(
+            ProblemCode.README_DEPENDENCIES_MISSING,
+            "DependencyParser found no dependencies in README/NOTICE sections",
+            Severity.INFO
+        )
+        return
+
+    verified = 0
+
+    for dep in unique:
+        hits = find_dependency_evidence(repo_root, dep)
+
+        if hits:
+            verified += 1
+            logger.log_pass(
+                ProblemCode.DEPENDENCY_DOC_EVIDENCE_FOUND,
+                f"Dependency '{dep}' has evidence in repository",
+                evidence_hits=hits
+            )
+        else:
+            src = next((x for x in doc_deps if normalize_dep_name(x.get("name", "")) == dep), {})
+            logger.log_problem(
+                ProblemCode.DEPENDENCY_DOC_NO_EVIDENCE,
+                f"Dependency '{dep}' listed in README/NOTICE but no evidence found in repo",
+                Severity.WARN,
+                file_path=src.get("from_file"),
+                line_number=src.get("license_line") or src.get("copyright_line"),
+                extracted=src
+            )
+
+    logger.log_problem(
+        ProblemCode.DEPENDENCY_DOC_EVIDENCE_FOUND,
+        f"Dependency verification coverage: {verified}/{len(unique)} doc dependencies have evidence",
+        Severity.INFO,
+        verified=verified,
+        total=len(unique)
+    )
+
 
 
 # ============================================================================
@@ -1269,7 +1388,12 @@ def copyright_checks(repo_root: Path, logger: ProblemLogger) -> None:
     text_lc = text.lower()
 
     # Copyright statement with year
-    cr_year_ok = bool(re.search(r"copyright\s*(?:\(|©)?\s*(19|20)\d{2}", text_lc))
+    cr_year_ok = bool(re.search(
+        r"copyright\s*(?:\(\s*[cC]\s*\)|©)?\s*(19|20)\d{2}",
+        text_lc,
+        re.IGNORECASE
+    ))
+
     if cr_year_ok:
         logger.log_pass(
             ProblemCode.COPYRIGHT_STATEMENT_MISSING,
@@ -1800,6 +1924,20 @@ def main() -> int:
 
         print("Analyzing CHANGELOG content...")
         changelog_checks(repo_dir, repo_name, logger)
+
+        print("Extracting dependencies from README/NOTICE using DependencyParser...")
+        try:
+            doc_deps = run_dependency_parser(repo_dir)
+        except Exception as e:
+            logger.log_problem(
+                ProblemCode.DEPENDENCY_PARSER_FAILED,
+                f"DependencyParser failed: {e}",
+                Severity.INFO
+            )
+            doc_deps = []
+
+        print("Verifying doc-declared dependencies against repository evidence...")
+        verify_doc_dependencies(repo_dir, logger, doc_deps)
 
         # ===== CONDITIONAL CHECKS =====
         # Contributing fallback

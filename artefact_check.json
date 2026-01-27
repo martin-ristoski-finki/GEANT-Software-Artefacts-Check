@@ -1,5 +1,5 @@
 {
-  "repo_url": "https://github.com/nmaas-platform/nmaas-platform.git",
+  "repo_url": "https://github.com/nmaas-platform/nmaas-platform/",
   "problems": [
     {
       "code": "ARTEFACT_README_MISSING",
@@ -85,7 +85,7 @@
       "priority": 1,
       "details": {
         "extension": ".jar",
-        "size_bytes": 45633
+        "size_bytes": 46175
       }
     },
     {
@@ -480,11 +480,11 @@
       "priority": 3,
       "details": {
         "licenses": [
-          "PROPRIETARY-LICENSE",
-          "MIT",
           "POSTGRESQL",
+          "MIT",
           "BSD-3-CLAUSE",
-          "APACHE-2.0"
+          "APACHE-2.0",
+          "PROPRIETARY-LICENSE"
         ],
         "main_license": "APACHE-2.0",
         "license_distribution": {
@@ -519,18 +519,18 @@
       "priority": 2,
       "details": {
         "undeclared_licenses": [
-          "MIT",
-          "BSD-3-CLAUSE",
           "POSTGRESQL",
-          "PROPRIETARY-LICENSE"
+          "PROPRIETARY-LICENSE",
+          "MIT",
+          "BSD-3-CLAUSE"
         ],
         "hint": "These may be from third-party dependencies"
       }
     },
     {
       "code": "COPYRIGHT_STATEMENT_MISSING",
-      "severity": "WARN",
-      "message": "No clear copyright statement with year in COPYRIGHT file",
+      "severity": "PASS",
+      "message": "Copyright statement with year detected",
       "file_path": "COPYRIGHT",
       "line_number": null,
       "priority": 3,
@@ -602,6 +602,15 @@
       "details": {}
     },
     {
+      "code": "README_DEPENDENCIES_MISSING",
+      "severity": "INFO",
+      "message": "DependencyParser found no dependencies in README/NOTICE sections",
+      "file_path": null,
+      "line_number": null,
+      "priority": 3,
+      "details": {}
+    },
+    {
       "code": "CONTRIBUTING_FALLBACK_MISSING",
       "severity": "FAIL",
       "message": "Not in CONTRIBUTING file or README",
@@ -621,10 +630,10 @@
     }
   ],
   "summary": {
-    "total": 61,
-    "pass": 21,
-    "info": 0,
-    "warn": 35,
+    "total": 62,
+    "pass": 22,
+    "info": 1,
+    "warn": 34,
     "fail": 2,
     "skip": 3
   }

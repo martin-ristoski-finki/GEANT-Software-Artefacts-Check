@@ -1,62 +1,63 @@
 repo_url,code,severity,message,file_path,line_number,priority,details
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_README_MISSING,PASS,README file found: README.md,,,1,"{""files"": [""README.md""]}"
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_LICENSE_MISSING,PASS,LICENSE file found: LICENSE,,,1,"{""files"": [""LICENSE""]}"
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_NOTICE_MISSING,WARN,NOTICE file not found,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_COPYRIGHT_MISSING,PASS,COPYRIGHT file found: COPYRIGHT,,,2,"{""files"": [""COPYRIGHT""]}"
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_AUTHORS_MISSING,WARN,AUTHORS file not found,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_CHANGELOG_MISSING,WARN,CHANGELOG file not found,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_CONTRIBUTING_MISSING,WARN,CONTRIBUTING file not found,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,BINARY_FILE_DETECTED,FAIL,Binary file detected: gradle/wrapper/gradle-wrapper.jar,gradle/wrapper/gradle-wrapper.jar,,1,"{""extension"": "".jar"", ""size_bytes"": 45633}"
-https://github.com/nmaas-platform/nmaas-platform.git,LARGE_FILE_DETECTED,PASS,No large files detected (>= 10485760 bytes),,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_PROJECT_NAME_MISSING,PASS,Project name detected in README,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_COPYRIGHT_MISSING,WARN,No clear copyright one-liner detected in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_STATUS_MISSING,PASS,Project status/lifecycle detected,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_TAGS_MISSING,WARN,No tags/keywords detected in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_VERSION_MISSING,WARN,No clear version indication in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_LICENSE_ONELINER_MISSING,WARN,Licence one-liner/link not detected in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGES_MISSING,PASS,Found 7 badge(s),,,3,"{""badge_count"": 7}"
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_METADATA_MISSING,WARN,Badge not detected: Project metadata and release status,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_DOWNLOADS_MISSING,WARN,Badge not detected: Package downloads and versions,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_COMMUNITY_MISSING,WARN,Badge not detected: Community engagement,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_CI_MISSING,WARN,Badge not detected: CI/CD workflows,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_QUALITY_MISSING,WARN,Badge not detected: Code quality,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_COVERAGE_MISSING,WARN,Badge not detected: Test coverage,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_SECURITY_MISSING,WARN,Badge not detected: Security vulnerabilities,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_DOCS_MISSING,PASS,Badge detected: Documentation,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BADGE_SUPPORT_MISSING,WARN,Badge not detected: Community support,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_DESCRIPTION_MISSING,PASS,Description/overview detected,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_FEATURES_MISSING,WARN,No features section in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_SCOPE_MISSING,WARN,No clear scope section in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_COMPATIBILITY_MISSING,PASS,Compatibility signals detected,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_STRUCTURE_MISSING,PASS,Structure signals detected,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_REQUIREMENTS_MISSING,WARN,No requirements section in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_INSTALLATION_MISSING,WARN,No installation section in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_USAGE_MISSING,WARN,Usage/examples not clearly present in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_DOCUMENTATION_MISSING,PASS,Documentation signals detected,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_VERSION_CONTROL_MISSING,PASS,Branch/tag wording detected,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_TROUBLESHOOTING_MISSING,WARN,No troubleshooting/FAQ in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_SUPPORT_INFO_MISSING,PASS,Support/contact wording detected,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_PRIVACY_MISSING,WARN,No privacy policy in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_ROADMAP_MISSING,WARN,No roadmap in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_AUTHORS_MISSING,WARN,No authors mention in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_CONTRIBUTING_MISSING,WARN,No contributing guidance in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_FUNDING_MISSING,PASS,Funding wording detected,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_ACKNOWLEDGEMENTS_MISSING,WARN,No acknowledgements in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_DEPENDENCIES_MISSING,WARN,No dependencies section in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_TOOLS_MISSING,PASS,Tools indicators detected,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_LICENSE_PARAGRAPH_MISSING,WARN,No licence summary in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_COPYRIGHT_DETAILS_MISSING,WARN,No COPYRIGHT reference in README,README,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,README_BROKEN_LINKS,WARN,"Broken links detected in README: docs/images/nmaas-landing-page.png ""Landing page"", docs/images/nmaas-applications.png ""Marketplace view"", docs/images/nmaas-application-instances.png ""Application instances"", docs/images/nmaas-example-instance.png ""Application instance details"", docs/images/nmaas-prometheus-app-view.png ""Example application user interface""",README,,2,"{""broken_links"": [""docs/images/nmaas-landing-page.png \""Landing page\"""", ""docs/images/nmaas-applications.png \""Marketplace view\"""", ""docs/images/nmaas-application-instances.png \""Application instances\"""", ""docs/images/nmaas-example-instance.png \""Application instance details\"""", ""docs/images/nmaas-prometheus-app-view.png \""Example application user interface\"""", ""docs/images/nmaas-application-management.png \""Application management view\"""", ""docs/images/nmaas-about.png \""About page\""""]}"
-https://github.com/nmaas-platform/nmaas-platform.git,LICENSE_FILE_TOO_SHORT,PASS,LICENSE file has adequate length (11558 characters),,,2,"{""char_count"": 11558}"
-https://github.com/nmaas-platform/nmaas-platform.git,LICENSE_TYPE_UNKNOWN,PASS,"ScanCode detected licenses: APACHE-2.0, BSD-3-CLAUSE, MIT, POSTGRESQL, PROPRIETARY-LICENSE",,,3,"{""licenses"": [""PROPRIETARY-LICENSE"", ""MIT"", ""POSTGRESQL"", ""BSD-3-CLAUSE"", ""APACHE-2.0""], ""main_license"": ""APACHE-2.0"", ""license_distribution"": {""APACHE-2.0"": 5, ""PROPRIETARY-LICENSE"": 2, ""BSD-3-CLAUSE"": 1, ""POSTGRESQL"": 1, ""MIT"": 1}}"
-https://github.com/nmaas-platform/nmaas-platform.git,LICENSE_MISMATCH_DETECTED,PASS,LICENSE file correctly declares APACHE-2.0,,,1,"{""declared"": [""APACHE-2.0""], ""detected"": ""APACHE-2.0""}"
-https://github.com/nmaas-platform/nmaas-platform.git,LICENSE_UNDECLARED_FOUND,WARN,"Licenses found in code but not declared in LICENSE: BSD-3-CLAUSE, MIT, POSTGRESQL, PROPRIETARY-LICENSE",LICENSE,,2,"{""undeclared_licenses"": [""MIT"", ""BSD-3-CLAUSE"", ""POSTGRESQL"", ""PROPRIETARY-LICENSE""], ""hint"": ""These may be from third-party dependencies""}"
-https://github.com/nmaas-platform/nmaas-platform.git,COPYRIGHT_STATEMENT_MISSING,WARN,No clear copyright statement with year in COPYRIGHT file,COPYRIGHT,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,COPYRIGHT_GEANT_MISSING,PASS,GÉANT copyright mention detected,COPYRIGHT,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,COPYRIGHT_STATEMENTS_COUNT,PASS,Found 2 copyright statement(s),,,3,"{""count"": 2}"
-https://github.com/nmaas-platform/nmaas-platform.git,COPYRIGHT_EU_LOGO_MISSING,WARN,"No EU logo file detected (eu-logo.png, eu-flag.png, etc.)",,,3,"{""expected_locations"": [""eu-logo.png"", ""eu-flag.png"", ""EU-logo.jpg"", ""EU-flag.jpg"", ""eu_flag.svg""], ""note"": ""Required for EU-funded projects""}"
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_AUTHORS_MISSING,SKIP,AUTHORS file not found,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_NOTICE_MISSING,SKIP,NOTICE file not found,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,ARTEFACT_CHANGELOG_MISSING,SKIP,CHANGELOG file not found,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,CONTRIBUTING_FALLBACK_MISSING,FAIL,Not in CONTRIBUTING file or README,,,3,
-https://github.com/nmaas-platform/nmaas-platform.git,AUTHORS_FALLBACK_MISSING,WARN,Not in AUTHORS file or README,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_README_MISSING,PASS,README file found: README.md,,,1,"{""files"": [""README.md""]}"
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_LICENSE_MISSING,PASS,LICENSE file found: LICENSE,,,1,"{""files"": [""LICENSE""]}"
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_NOTICE_MISSING,WARN,NOTICE file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_COPYRIGHT_MISSING,PASS,COPYRIGHT file found: COPYRIGHT,,,2,"{""files"": [""COPYRIGHT""]}"
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_AUTHORS_MISSING,WARN,AUTHORS file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_CHANGELOG_MISSING,WARN,CHANGELOG file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_CONTRIBUTING_MISSING,WARN,CONTRIBUTING file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,BINARY_FILE_DETECTED,FAIL,Binary file detected: gradle/wrapper/gradle-wrapper.jar,gradle/wrapper/gradle-wrapper.jar,,1,"{""extension"": "".jar"", ""size_bytes"": 46175}"
+https://github.com/nmaas-platform/nmaas-platform/,LARGE_FILE_DETECTED,PASS,No large files detected (>= 10485760 bytes),,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_PROJECT_NAME_MISSING,PASS,Project name detected in README,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_COPYRIGHT_MISSING,WARN,No clear copyright one-liner detected in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_STATUS_MISSING,PASS,Project status/lifecycle detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_TAGS_MISSING,WARN,No tags/keywords detected in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_VERSION_MISSING,WARN,No clear version indication in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_LICENSE_ONELINER_MISSING,WARN,Licence one-liner/link not detected in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGES_MISSING,PASS,Found 7 badge(s),,,3,"{""badge_count"": 7}"
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGE_METADATA_MISSING,WARN,Badge not detected: Project metadata and release status,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGE_DOWNLOADS_MISSING,WARN,Badge not detected: Package downloads and versions,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGE_COMMUNITY_MISSING,WARN,Badge not detected: Community engagement,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGE_CI_MISSING,WARN,Badge not detected: CI/CD workflows,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGE_QUALITY_MISSING,WARN,Badge not detected: Code quality,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGE_COVERAGE_MISSING,WARN,Badge not detected: Test coverage,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGE_SECURITY_MISSING,WARN,Badge not detected: Security vulnerabilities,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGE_DOCS_MISSING,PASS,Badge detected: Documentation,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BADGE_SUPPORT_MISSING,WARN,Badge not detected: Community support,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_DESCRIPTION_MISSING,PASS,Description/overview detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_FEATURES_MISSING,WARN,No features section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_SCOPE_MISSING,WARN,No clear scope section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_COMPATIBILITY_MISSING,PASS,Compatibility signals detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_STRUCTURE_MISSING,PASS,Structure signals detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_REQUIREMENTS_MISSING,WARN,No requirements section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_INSTALLATION_MISSING,WARN,No installation section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_USAGE_MISSING,WARN,Usage/examples not clearly present in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_DOCUMENTATION_MISSING,PASS,Documentation signals detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_VERSION_CONTROL_MISSING,PASS,Branch/tag wording detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_TROUBLESHOOTING_MISSING,WARN,No troubleshooting/FAQ in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_SUPPORT_INFO_MISSING,PASS,Support/contact wording detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_PRIVACY_MISSING,WARN,No privacy policy in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_ROADMAP_MISSING,WARN,No roadmap in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_AUTHORS_MISSING,WARN,No authors mention in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_CONTRIBUTING_MISSING,WARN,No contributing guidance in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_FUNDING_MISSING,PASS,Funding wording detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_ACKNOWLEDGEMENTS_MISSING,WARN,No acknowledgements in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_DEPENDENCIES_MISSING,WARN,No dependencies section in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_TOOLS_MISSING,PASS,Tools indicators detected,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_LICENSE_PARAGRAPH_MISSING,WARN,No licence summary in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_COPYRIGHT_DETAILS_MISSING,WARN,No COPYRIGHT reference in README,README,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_BROKEN_LINKS,WARN,"Broken links detected in README: docs/images/nmaas-landing-page.png ""Landing page"", docs/images/nmaas-applications.png ""Marketplace view"", docs/images/nmaas-application-instances.png ""Application instances"", docs/images/nmaas-example-instance.png ""Application instance details"", docs/images/nmaas-prometheus-app-view.png ""Example application user interface""",README,,2,"{""broken_links"": [""docs/images/nmaas-landing-page.png \""Landing page\"""", ""docs/images/nmaas-applications.png \""Marketplace view\"""", ""docs/images/nmaas-application-instances.png \""Application instances\"""", ""docs/images/nmaas-example-instance.png \""Application instance details\"""", ""docs/images/nmaas-prometheus-app-view.png \""Example application user interface\"""", ""docs/images/nmaas-application-management.png \""Application management view\"""", ""docs/images/nmaas-about.png \""About page\""""]}"
+https://github.com/nmaas-platform/nmaas-platform/,LICENSE_FILE_TOO_SHORT,PASS,LICENSE file has adequate length (11558 characters),,,2,"{""char_count"": 11558}"
+https://github.com/nmaas-platform/nmaas-platform/,LICENSE_TYPE_UNKNOWN,PASS,"ScanCode detected licenses: APACHE-2.0, BSD-3-CLAUSE, MIT, POSTGRESQL, PROPRIETARY-LICENSE",,,3,"{""licenses"": [""POSTGRESQL"", ""MIT"", ""BSD-3-CLAUSE"", ""APACHE-2.0"", ""PROPRIETARY-LICENSE""], ""main_license"": ""APACHE-2.0"", ""license_distribution"": {""APACHE-2.0"": 5, ""PROPRIETARY-LICENSE"": 2, ""BSD-3-CLAUSE"": 1, ""POSTGRESQL"": 1, ""MIT"": 1}}"
+https://github.com/nmaas-platform/nmaas-platform/,LICENSE_MISMATCH_DETECTED,PASS,LICENSE file correctly declares APACHE-2.0,,,1,"{""declared"": [""APACHE-2.0""], ""detected"": ""APACHE-2.0""}"
+https://github.com/nmaas-platform/nmaas-platform/,LICENSE_UNDECLARED_FOUND,WARN,"Licenses found in code but not declared in LICENSE: BSD-3-CLAUSE, MIT, POSTGRESQL, PROPRIETARY-LICENSE",LICENSE,,2,"{""undeclared_licenses"": [""POSTGRESQL"", ""PROPRIETARY-LICENSE"", ""MIT"", ""BSD-3-CLAUSE""], ""hint"": ""These may be from third-party dependencies""}"
+https://github.com/nmaas-platform/nmaas-platform/,COPYRIGHT_STATEMENT_MISSING,PASS,Copyright statement with year detected,COPYRIGHT,,3,
+https://github.com/nmaas-platform/nmaas-platform/,COPYRIGHT_GEANT_MISSING,PASS,GÉANT copyright mention detected,COPYRIGHT,,3,
+https://github.com/nmaas-platform/nmaas-platform/,COPYRIGHT_STATEMENTS_COUNT,PASS,Found 2 copyright statement(s),,,3,"{""count"": 2}"
+https://github.com/nmaas-platform/nmaas-platform/,COPYRIGHT_EU_LOGO_MISSING,WARN,"No EU logo file detected (eu-logo.png, eu-flag.png, etc.)",,,3,"{""expected_locations"": [""eu-logo.png"", ""eu-flag.png"", ""EU-logo.jpg"", ""EU-flag.jpg"", ""eu_flag.svg""], ""note"": ""Required for EU-funded projects""}"
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_AUTHORS_MISSING,SKIP,AUTHORS file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_NOTICE_MISSING,SKIP,NOTICE file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,ARTEFACT_CHANGELOG_MISSING,SKIP,CHANGELOG file not found,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,README_DEPENDENCIES_MISSING,INFO,DependencyParser found no dependencies in README/NOTICE sections,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,CONTRIBUTING_FALLBACK_MISSING,FAIL,Not in CONTRIBUTING file or README,,,3,
+https://github.com/nmaas-platform/nmaas-platform/,AUTHORS_FALLBACK_MISSING,WARN,Not in AUTHORS file or README,,,3,
